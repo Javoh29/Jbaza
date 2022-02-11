@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 mixin HiveUtil {
   Future<void> save<T>(String key, T data) async {
@@ -48,4 +49,8 @@ mixin HiveUtil {
     final Box box = await Hive.openBox(key);
     box.close();
   }
+}
+
+Future<void> hiveInit() async {
+  await Hive.initFlutter();
 }
