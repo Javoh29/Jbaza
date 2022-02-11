@@ -12,4 +12,4 @@ and the Flutter guide for
 -->
 ## Info
 
-TODO: Jbaza is a state management package, a simplified and modified version of the Stacked package
+Jbaza is a state management package, a simplified and modified version of the Stacked package
