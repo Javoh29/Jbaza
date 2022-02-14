@@ -1,7 +1,11 @@
 # This is a generated file; do not edit or check into version control.
+package_info_plus=/Users/javoh/flutter/.pub-cache/hosted/pub.dartlang.org/package_info_plus-1.3.0/
+package_info_plus_macos=/Users/javoh/flutter/.pub-cache/hosted/pub.dartlang.org/package_info_plus_macos-1.3.0/
+package_info_plus_web=/Users/javoh/flutter/.pub-cache/hosted/pub.dartlang.org/package_info_plus_web-1.0.4/
 path_provider=/Users/javoh/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-2.0.9/
 path_provider_android=/Users/javoh/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_android-2.0.11/
 path_provider_ios=/Users/javoh/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_ios-2.0.7/
 path_provider_linux=/Users/javoh/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-2.1.5/
 path_provider_macos=/Users/javoh/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_macos-2.0.5/
 path_provider_windows=/Users/javoh/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-2.0.5/
+sentry_flutter=/Users/javoh/flutter/.pub-cache/hosted/pub.dartlang.org/sentry_flutter-6.3.0/
