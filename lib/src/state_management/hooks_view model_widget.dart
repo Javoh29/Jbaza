@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 /// An implementation of the ViewModelWidget that allows you to use Hooks in the build
 abstract class HookViewModelWidget<T> extends HookWidget {
   final bool reactive;
+  // ignore: use_key_in_widget_constructors
   const HookViewModelWidget({Key? key, this.reactive = true});
 
   @override

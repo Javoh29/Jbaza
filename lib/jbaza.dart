@@ -13,5 +13,6 @@ export 'src/reactive/reactive_value/reactive_value.dart';
 export 'src/reactive/reactive_list/reactive_list.dart';
 
 export 'src/utils/hive_util.dart';
+export 'src/utils/initial_util.dart';
 export 'src/utils/view_model_exception.dart';
 export 'src/utils/view_model_response.dart';

@@ -1,6 +1,12 @@
-import 'package:flutter/cupertino.dart';
-import 'package:jbaza/src/utils/view_model_response.dart';
+import 'dart:io';
 
+import 'package:device_info/device_info.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:hive/hive.dart';
+import 'package:jbaza/src/utils/view_model_response.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+
+import '../utils/initial_util.dart';
 import '../utils/view_model_exception.dart';
 
 /// Contains ViewModel functionality for busy state management
@@ -9,6 +15,7 @@ abstract class BaseViewModel extends ChangeNotifier {
   final Map<String, VMException> _errorStates = <String, VMException>{};
   final Map<String, VMResponse> _successStates = <String, VMResponse>{};
 
+  final String _errorLogKey = 'jbaza_error_log';
   String _modelTag = "BaseViewModel";
   String get modelTag => _modelTag;
   void setModelTag(String value) => _modelTag = value;
@@ -35,14 +42,38 @@ abstract class BaseViewModel extends ChangeNotifier {
 
   void setError(VMException value, {String? tag, bool change = true}) {
     value.tag = tag ?? modelTag;
+    var curTime = DateTime.now();
+    value.time =
+        '${curTime.day}-${curTime.month}-${curTime.year} (${curTime.hour}:${curTime.minute})';
     _errorStates[value.tag] = value;
     if (change) notifyListeners();
+    _sendToSave(value);
   }
 
   void setSuccess(VMResponse value, {String? tag, bool change = true}) {
     value.tag = tag ?? modelTag;
     _successStates[value.tag] = value;
     if (change) notifyListeners();
+  }
+
+  Future<void> _sendToSave(VMException value) async {
+    String deviceInfo = 'Unknown device, AppVersion: $mAppVersion';
+    try {
+      if (Platform.isIOS) {
+        var iosInfo = await DeviceInfoPlugin().iosInfo;
+        deviceInfo =
+            'Dev: ${iosInfo.name} - ${iosInfo.model}, OS: ${Platform.operatingSystem} ${iosInfo.systemVersion}, AppVersion: $mAppVersion';
+      } else if (Platform.isAndroid) {
+        var androidInfo = await DeviceInfoPlugin().androidInfo;
+        deviceInfo =
+            'Dev: ${androidInfo.manufacturer} - ${androidInfo.model}, OS: ${Platform.operatingSystem} ${androidInfo.version.release}, AppVersion: $mAppVersion';
+      }
+    } catch (e) {
+      Sentry.captureMessage(e.toString(), level: SentryLevel.error);
+    }
+    value.deviceInfo = deviceInfo;
+    saveBox(_errorLogKey, value);
+    Sentry.captureMessage(value.toString(), level: SentryLevel.error);
   }
 
   VMException? getVMError({String? tag}) => _errorStates[tag];
@@ -52,6 +83,58 @@ abstract class BaseViewModel extends ChangeNotifier {
   void setInitialised(bool value) => _initialised = value;
 
   void setOnModelReadyCalled(bool value) => _onModelReadyCalled = value;
+
+  Future<void> saveBox<T>(String key, T data) async {
+    late Box<T> box;
+    if (Hive.isBoxOpen(key)) {
+      box = Hive.box<T>(key);
+    } else {
+      box = await Hive.openBox<T>(key);
+    }
+    box.put(key, data);
+    if (T is HiveObject) {
+      (data as HiveObject).save();
+    }
+  }
+
+  Future<T> getBox<T>(String key) async {
+    late Box<T> box;
+    if (Hive.isBoxOpen(key)) {
+      box = Hive.box<T>(key);
+    } else {
+      box = await Hive.openBox<T>(key);
+    }
+    return Future<T>.value(box.get(key));
+  }
+
+  Future<void> deleteBox(String key) async {
+    Box box;
+    if (Hive.isBoxOpen(key)) {
+      box = Hive.box(key);
+    } else {
+      box = await Hive.openBox(key);
+    }
+    box.clear();
+  }
+
+  Future<void> deleteBoxKey<T>(key) async {
+    late Box<T> box;
+    if (Hive.isBoxOpen(key)) {
+      box = Hive.box(key);
+    } else {
+      box = await Hive.openBox(key);
+    }
+    box.clear();
+  }
+
+  Future<void> closeBox(String key) async {
+    try {
+      final Box box = await Hive.openBox(key);
+      box.close();
+    } catch (e) {
+      Sentry.captureMessage(e.toString(), level: SentryLevel.error);
+    }
+  }
 
   @override
   void notifyListeners() {
@@ -63,6 +146,7 @@ abstract class BaseViewModel extends ChangeNotifier {
   @override
   void dispose() {
     _disposed = true;
+    Hive.close();
     super.dispose();
   }
 }
