@@ -15,7 +15,7 @@ abstract class BaseViewModel extends ChangeNotifier {
   final Map<String, VMException> _errorStates = <String, VMException>{};
   final Map<String, VMResponse> _successStates = <String, VMResponse>{};
 
-  final String _errorLogKey = 'jbaza_error_log';
+  final String errorLogKey = 'jbaza_error_log';
   String _modelTag = "BaseViewModel";
   String get modelTag => _modelTag;
   void setModelTag(String value) => _modelTag = value;
@@ -46,6 +46,7 @@ abstract class BaseViewModel extends ChangeNotifier {
     value.time =
         '${curTime.day}-${curTime.month}-${curTime.year} (${curTime.hour}:${curTime.minute})';
     _errorStates[value.tag] = value;
+    _busyStates.remove(tag);
     if (change) notifyListeners();
     _sendToSave(value);
   }
@@ -53,6 +54,7 @@ abstract class BaseViewModel extends ChangeNotifier {
   void setSuccess(VMResponse value, {String? tag, bool change = true}) {
     value.tag = tag ?? modelTag;
     _successStates[value.tag] = value;
+    _busyStates.remove(tag);
     if (change) notifyListeners();
   }
 
@@ -72,7 +74,7 @@ abstract class BaseViewModel extends ChangeNotifier {
       Sentry.captureMessage(e.toString(), level: SentryLevel.error);
     }
     value.deviceInfo = deviceInfo;
-    saveBox(_errorLogKey, value);
+    saveBox(errorLogKey, value);
     Sentry.captureMessage(value.toString(), level: SentryLevel.error);
   }
 
