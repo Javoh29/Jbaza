@@ -16,3 +16,6 @@ export 'src/utils/hive_util.dart';
 export 'src/utils/initial_util.dart';
 export 'src/utils/view_model_exception.dart';
 export 'src/utils/view_model_response.dart';
+
+export 'src/widgets/errors_page.dart';
+export 'src/widgets/error_info_page.dart';
