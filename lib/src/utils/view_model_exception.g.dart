@@ -8,7 +8,7 @@ part of 'view_model_exception.dart';
 
 class VMExceptionAdapter extends TypeAdapter<VMException> {
   @override
-  final int typeId = 404;
+  final int typeId = 0;
 
   @override
   VMException read(BinaryReader reader) {

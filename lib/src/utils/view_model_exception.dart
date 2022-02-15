@@ -3,7 +3,7 @@ import 'package:http/http.dart';
 
 part 'view_model_exception.g.dart';
 
-@HiveType(typeId: 404)
+@HiveType(typeId: 0)
 class VMException extends HiveObject {
   @HiveField(0)
   final String message;

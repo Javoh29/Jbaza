@@ -1,4 +1,4 @@
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -24,8 +24,8 @@ Future<void> setupConfigs(Function app, String sentryKey,
 
 Future<void> _initHive([List<TypeAdapter<dynamic>>? adapters]) async {
   final directory = await getApplicationSupportDirectory();
-  Hive.initFlutter(directory.path);
-  adapters?.forEach((TypeAdapter element) {
+  Hive.init(directory.path);
+  adapters?.forEach((element) {
     Hive.registerAdapter(element);
   });
 }
