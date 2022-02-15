@@ -88,7 +88,7 @@ class ErrorsPage extends ViewModelBuilderWidget<ErrorsViewModel> {
                     PopupMenuItem(
                       value: 2,
                       child: const Text("Удалить все"),
-                      onTap: () {},
+                      onTap: () => viewModel.deleteAllError(),
                     )
                   ])
         ],

@@ -41,6 +41,18 @@ class ErrorsViewModel extends BaseViewModel {
     }
   }
 
+  Future<void> deleteAllError() async {
+    setBusy(true);
+    try {
+      _errorsList.clear();
+      _filterErrorsList.clear();
+      await deleteLazyBoxKey<VMException>(errorLogKey);
+      setSuccess();
+    } catch (e) {
+      setError(VMException(e.toString(), callFuncName: 'deleteAllError'));
+    }
+  }
+
   Future<void> shareError(List<VMException> list) async {
     try {
       var dir = await getAppDirPath();
