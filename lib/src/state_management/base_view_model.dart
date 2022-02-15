@@ -119,6 +119,16 @@ abstract class BaseViewModel extends ChangeNotifier {
     return Future<T>.value(box.get(key));
   }
 
+  Future<List<T>> getAllBoxValue<T>(String key) async {
+    late Box<T> box;
+    if (Hive.isBoxOpen(key)) {
+      box = Hive.box<T>(key);
+    } else {
+      box = await Hive.openBox<T>(key);
+    }
+    return Future<List<T>>.value(box.toMap().values.toList());
+  }
+
   Future<void> deleteBox(String key) async {
     Box box;
     if (Hive.isBoxOpen(key)) {
