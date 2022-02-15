@@ -29,7 +29,7 @@ class ErrorInfoPage extends ViewModelBuilderWidget<ErrorsViewModel> {
             )),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () => viewModel.shareError([_vmException]),
               icon: const Icon(
                 Icons.share,
                 size: 22,

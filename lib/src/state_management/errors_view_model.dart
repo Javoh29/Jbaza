@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:jbaza/jbaza.dart';
 
 class ErrorsViewModel extends BaseViewModel {
@@ -35,6 +38,21 @@ class ErrorsViewModel extends BaseViewModel {
       setSuccess();
     } catch (e) {
       setError(VMException(e.toString(), callFuncName: 'searchError'));
+    }
+  }
+
+  Future<void> shareError(List<VMException> list) async {
+    try {
+      var dir = await getAppDirPath();
+      final filePath = '${dir!.path}/jbaza_errors.json';
+      final File file = File(filePath);
+      List<VMException> vmeList = [];
+      vmeList.addAll(list);
+      vmeList.map((e) => e.toJson()).toList();
+      await file.writeAsString(jsonEncode(vmeList));
+      jbShare(path: filePath, isFile: true);
+    } catch (e) {
+      setError(VMException(e.toString(), callFuncName: 'shareError'));
     }
   }
 }
