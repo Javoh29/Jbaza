@@ -51,7 +51,8 @@ abstract class BaseViewModel extends ChangeNotifier {
     _sendToSave(value);
   }
 
-  void setSuccess(VMResponse value, {String? tag, bool change = true}) {
+  void setSuccess({VMResponse? value, String? tag, bool change = true}) {
+    value ??= VMResponse(true);
     value.tag = tag ?? modelTag;
     _successStates[value.tag] = value;
     _busyStates.remove(value.tag);
@@ -75,7 +76,7 @@ abstract class BaseViewModel extends ChangeNotifier {
     }
     value.deviceInfo = deviceInfo;
     saveBox<VMException>(errorLogKey, value);
-    Sentry.captureMessage(value.toString(), level: SentryLevel.error);
+    Sentry.captureMessage(value.toJson().toString(), level: SentryLevel.error);
   }
 
   VMException? getVMError({String? tag}) => _errorStates[tag ?? _modelTag];
@@ -119,7 +120,7 @@ abstract class BaseViewModel extends ChangeNotifier {
     return Future<T>.value(box.get(key));
   }
 
-  Future<List<T>> getAllBoxValue<T>(String key) async {
+  Future<List<T>> getBoxAllValue<T>(String key) async {
     late Box<T> box;
     if (Hive.isBoxOpen(key)) {
       box = Hive.box<T>(key);

@@ -8,9 +8,9 @@ class VMException extends HiveObject {
   @HiveField(0)
   final String message;
   @HiveField(1)
-  String tag = '';
+  String tag;
   @HiveField(2)
-  String time = '';
+  String time;
   @HiveField(3)
   String? callFuncName;
   @HiveField(4)
@@ -27,23 +27,83 @@ class VMException extends HiveObject {
   String? responseBody;
   @HiveField(10)
   String? tokenIsValid;
-  Response? _response;
+  Response? response;
 
   VMException(this.message,
-      {this.callFuncName, this.lineNum, this.deviceInfo, Response? response}) {
-    _response = response;
-    if (_response != null) {
-      baseRequest = _response!.request.toString();
-      responseStatusCode = _response!.statusCode.toString();
-      responsePhrase = _response!.reasonPhrase.toString();
-      responseBody = _response!.body.toString();
-      tokenIsValid = _response!.headers['Authorization'] != null
-          ? _response!.headers['Authorization']!.length < 10
+      {this.tag = '',
+      this.time = '',
+      this.callFuncName,
+      this.lineNum,
+      this.deviceInfo,
+      this.response,
+      this.baseRequest,
+      this.responseStatusCode,
+      this.responsePhrase,
+      this.responseBody,
+      this.tokenIsValid}) {
+    if (response != null) {
+      baseRequest = response!.request.toString();
+      responseStatusCode = response!.statusCode.toString();
+      responsePhrase = response!.reasonPhrase.toString();
+      responseBody = response!.body.toString();
+      tokenIsValid = response!.headers['Authorization'] != null
+          ? response!.headers['Authorization']!.length < 10
               ? 'empty'
               : 'true'
           : 'null';
     }
   }
+
+  factory VMException.fromJson(Map<String, dynamic> json) {
+    return VMException(json['message'] ?? 'Unknown message',
+        tag: json['tag'],
+        time: json['time'],
+        callFuncName: json['call_func_name'],
+        lineNum: json['line_num'],
+        baseRequest: json['base_request'],
+        responseStatusCode: json['response_status_code'],
+        responsePhrase: json['response_phrase'],
+        responseBody: json['response_body'],
+        tokenIsValid: json['token_is_valid']);
+  }
+
+  Map<String, dynamic> toJson() {
+    if (responseStatusCode != null) {
+      return {
+        'tag': tag,
+        'message': message,
+        'time:': time,
+        'call_func_name': callFuncName,
+        'line_num': lineNum,
+        'base_request': baseRequest,
+        'response_status_code': responseStatusCode,
+        'response_phrase': responsePhrase,
+        'response_body': responseBody,
+        'token_is_valid': tokenIsValid
+      };
+    } else {
+      return {
+        'tag': tag,
+        'message': message,
+        'time:': time,
+        'call_func_name': callFuncName,
+        'line_num': lineNum
+      };
+    }
+  }
+
+  VMException copyWith({
+    String? message,
+    String? callFuncName,
+    String? lineNum,
+    String? deviceInfo,
+    Response? response,
+  }) =>
+      VMException(message ?? this.message,
+          callFuncName: callFuncName ?? this.callFuncName,
+          lineNum: lineNum ?? this.lineNum,
+          deviceInfo: deviceInfo ?? this.deviceInfo,
+          response: response ?? this.response);
 
   @override
   String toString() {
@@ -53,8 +113,8 @@ class VMException extends HiveObject {
     sb.write(', Time($time)');
     sb.write(', Call func name: $callFuncName');
     sb.write(', Line num: $lineNum');
-    if (_response != null) {
-      sb.write(', Base resqust: $baseRequest');
+    if (response != null) {
+      sb.write(', Base request: $baseRequest');
       sb.write(', Response status code: $responseStatusCode');
       sb.write(', Response phrase: $responsePhrase');
       sb.write(', Response body: $responseBody');
