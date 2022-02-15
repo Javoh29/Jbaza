@@ -75,7 +75,7 @@ abstract class BaseViewModel extends ChangeNotifier {
       Sentry.captureMessage(e.toString(), level: SentryLevel.error);
     }
     value.deviceInfo = deviceInfo;
-    saveBox<VMException>(errorLogKey, value);
+    saveLazyBox<VMException>(errorLogKey, value);
     Sentry.captureMessage(value.toJson().toString(), level: SentryLevel.error);
   }
 
@@ -110,6 +110,16 @@ abstract class BaseViewModel extends ChangeNotifier {
     box.add(data);
   }
 
+  Future<void> saveLazyBox<T>(String key, T data) async {
+    late LazyBox<T> box;
+    if (Hive.isBoxOpen(key)) {
+      box = Hive.lazyBox<T>(key);
+    } else {
+      box = await Hive.openLazyBox<T>(key);
+    }
+    box.add(data);
+  }
+
   Future<T> getBox<T>(String key) async {
     late Box<T> box;
     if (Hive.isBoxOpen(key)) {
@@ -118,6 +128,17 @@ abstract class BaseViewModel extends ChangeNotifier {
       box = await Hive.openBox<T>(key);
     }
     return Future<T>.value(box.get(key));
+  }
+
+  Future<T> getLazyBox<T>(String key) async {
+    late LazyBox<T> box;
+    if (Hive.isBoxOpen(key)) {
+      box = Hive.lazyBox<T>(key);
+    } else {
+      box = await Hive.openLazyBox<T>(key);
+    }
+    T? value = await box.get(key);
+    return Future<T>.value(value);
   }
 
   Future<List<T>> getBoxAllValue<T>(String key) async {
@@ -130,12 +151,37 @@ abstract class BaseViewModel extends ChangeNotifier {
     return Future<List<T>>.value(box.toMap().values.toList());
   }
 
+  Future<List<T>> getLazyBoxAllValue<T>(String key) async {
+    late LazyBox<T> box;
+    if (Hive.isBoxOpen(key)) {
+      box = Hive.lazyBox<T>(key);
+    } else {
+      box = await Hive.openLazyBox<T>(key);
+    }
+    List<T> list = [];
+    for (var e in box.keys) {
+      T? v = await box.get(e);
+      if (v != null) list.add(v);
+    }
+    return Future<List<T>>.value(list);
+  }
+
   Future<void> deleteBox(String key) async {
     Box box;
     if (Hive.isBoxOpen(key)) {
       box = Hive.box(key);
     } else {
       box = await Hive.openBox(key);
+    }
+    box.clear();
+  }
+
+  Future<void> deleteLazyBox(String key) async {
+    LazyBox box;
+    if (Hive.isBoxOpen(key)) {
+      box = Hive.lazyBox(key);
+    } else {
+      box = await Hive.openLazyBox(key);
     }
     box.clear();
   }
@@ -150,9 +196,28 @@ abstract class BaseViewModel extends ChangeNotifier {
     box.clear();
   }
 
+  Future<void> deleteLazyBoxKey<T>(key) async {
+    late LazyBox<T> box;
+    if (Hive.isBoxOpen(key)) {
+      box = Hive.lazyBox(key);
+    } else {
+      box = await Hive.openLazyBox(key);
+    }
+    box.clear();
+  }
+
   Future<void> closeBox(String key) async {
     try {
       final Box box = await Hive.openBox(key);
+      box.close();
+    } catch (e) {
+      Sentry.captureMessage(e.toString(), level: SentryLevel.error);
+    }
+  }
+
+  Future<void> closeLazyBox(String key) async {
+    try {
+      final LazyBox box = await Hive.openLazyBox(key);
       box.close();
     } catch (e) {
       Sentry.captureMessage(e.toString(), level: SentryLevel.error);

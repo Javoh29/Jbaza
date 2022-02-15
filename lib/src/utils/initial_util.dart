@@ -58,10 +58,10 @@ Future<void> jbShare(
     String? fileTitle,
     bool isFile = false}) async {
   if (isFile) {
-    if (text == null) throw VMException('Share text null');
-    Share.share(text);
-  } else {
     if (path == null) throw VMException('Share path null');
     Share.shareFiles([path], text: fileTitle);
+  } else {
+    if (text == null) throw VMException('Share text null');
+    Share.share(text);
   }
 }

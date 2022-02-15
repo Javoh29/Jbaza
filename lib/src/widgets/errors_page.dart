@@ -79,7 +79,11 @@ class ErrorsPage extends ViewModelBuilderWidget<ErrorsViewModel> {
                     PopupMenuItem(
                       value: 1,
                       child: const Text("Поделится"),
-                      onTap: () {},
+                      onTap: () {
+                        if (viewModel.selectedList.isNotEmpty) {
+                          viewModel.shareError(viewModel.selectedList);
+                        }
+                      },
                     ),
                     PopupMenuItem(
                       value: 2,
