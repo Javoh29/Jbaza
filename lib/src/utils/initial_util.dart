@@ -4,6 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:share/share.dart';
 
 String mAppVersion = '0.0.1';
 
@@ -48,5 +49,19 @@ Future<Directory?> getAppDirPath({String? value}) async {
       return getDownloadsDirectory();
     default:
       return getApplicationSupportDirectory();
+  }
+}
+
+Future<void> jbShare(
+    {String? text,
+    String? path,
+    String? fileTitle,
+    bool isFile = false}) async {
+  if (isFile) {
+    if (text == null) throw VMException('Share text null');
+    Share.share(text);
+  } else {
+    if (path == null) throw VMException('Share path null');
+    Share.shareFiles([path], text: fileTitle);
   }
 }
