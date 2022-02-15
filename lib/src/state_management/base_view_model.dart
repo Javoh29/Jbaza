@@ -78,9 +78,9 @@ abstract class BaseViewModel extends ChangeNotifier {
     Sentry.captureMessage(value.toString(), level: SentryLevel.error);
   }
 
-  VMException? getVMError({String? tag}) => _errorStates[tag];
+  VMException? getVMError({String? tag}) => _errorStates[tag ?? _modelTag];
 
-  VMResponse? getVMResponse({String? tag}) => _successStates[tag];
+  VMResponse? getVMResponse({String? tag}) => _successStates[tag ?? _modelTag];
 
   void setInitialised(bool value) => _initialised = value;
 
