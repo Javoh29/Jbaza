@@ -18,7 +18,7 @@ Future<void> setupConfigs(Function app, String sentryKey,
       options.dsn = sentryKey;
       options.tracesSampleRate = traces;
     },
-    appRunner: () => app,
+    appRunner: app(),
   );
 }
 
