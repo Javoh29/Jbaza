@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:jbaza/jbaza.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
@@ -10,7 +11,7 @@ Future<void> setupConfigs(Function app, String sentryKey,
     String? appVersion}) async {
   if (appVersion != null) mAppVersion = appVersion;
   adapters ??= [];
-  // adapters.add()
+  adapters.add(VMExceptionAdapter());
   await _initHive(adapters);
   await SentryFlutter.init(
     (options) {
