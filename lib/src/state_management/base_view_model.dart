@@ -86,7 +86,7 @@ abstract class BaseViewModel extends ChangeNotifier {
 
   void setOnModelReadyCalled(bool value) => _onModelReadyCalled = value;
 
-  Future<void> saveBox<T>(String key, T data) async {
+  Future<void> replaceBox<T>(String key, T data) async {
     late Box<T> box;
     if (Hive.isBoxOpen(key)) {
       box = Hive.box<T>(key);
@@ -97,6 +97,16 @@ abstract class BaseViewModel extends ChangeNotifier {
     if (T is HiveObject) {
       (data as HiveObject).save();
     }
+  }
+
+  Future<void> saveBox<T>(String key, T data) async {
+    late Box<T> box;
+    if (Hive.isBoxOpen(key)) {
+      box = Hive.box<T>(key);
+    } else {
+      box = await Hive.openBox<T>(key);
+    }
+    box.add(data);
   }
 
   Future<T> getBox<T>(String key) async {
