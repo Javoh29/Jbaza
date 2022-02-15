@@ -46,7 +46,7 @@ abstract class BaseViewModel extends ChangeNotifier {
     value.time =
         '${curTime.day}-${curTime.month}-${curTime.year} (${curTime.hour}:${curTime.minute})';
     _errorStates[value.tag] = value;
-    _busyStates.remove(tag);
+    _busyStates.remove(value.tag);
     if (change) notifyListeners();
     _sendToSave(value);
   }
@@ -54,7 +54,7 @@ abstract class BaseViewModel extends ChangeNotifier {
   void setSuccess(VMResponse value, {String? tag, bool change = true}) {
     value.tag = tag ?? modelTag;
     _successStates[value.tag] = value;
-    _busyStates.remove(tag);
+    _busyStates.remove(value.tag);
     if (change) notifyListeners();
   }
 
@@ -74,7 +74,7 @@ abstract class BaseViewModel extends ChangeNotifier {
       Sentry.captureMessage(e.toString(), level: SentryLevel.error);
     }
     value.deviceInfo = deviceInfo;
-    saveBox(errorLogKey, value);
+    saveBox<VMException>(errorLogKey, value);
     Sentry.captureMessage(value.toString(), level: SentryLevel.error);
   }
 
