@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jbaza/jbaza.dart';
-import 'package:jbaza/src/widgets/error_info_page.dart';
 
 import '../state_management/errors_view_model.dart';
 import 'error_dialog.dart';
