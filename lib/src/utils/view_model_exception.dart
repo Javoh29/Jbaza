@@ -27,6 +27,7 @@ class VMException extends HiveObject {
   String? responseBody;
   @HiveField(10)
   String? tokenIsValid;
+  bool isInet = false;
   Response? response;
 
   VMException(this.message,
@@ -40,7 +41,8 @@ class VMException extends HiveObject {
       this.responseStatusCode,
       this.responsePhrase,
       this.responseBody,
-      this.tokenIsValid}) {
+      this.tokenIsValid,
+      this.isInet = false}) {
     if (response != null) {
       baseRequest = response!.request.toString();
       responseStatusCode = response!.statusCode.toString();
@@ -92,18 +94,19 @@ class VMException extends HiveObject {
     }
   }
 
-  VMException copyWith({
-    String? message,
-    String? callFuncName,
-    String? lineNum,
-    String? deviceInfo,
-    Response? response,
-  }) =>
+  VMException copyWith(
+          {String? message,
+          String? callFuncName,
+          String? lineNum,
+          String? deviceInfo,
+          Response? response,
+          bool? isInet}) =>
       VMException(message ?? this.message,
           callFuncName: callFuncName ?? this.callFuncName,
           lineNum: lineNum ?? this.lineNum,
           deviceInfo: deviceInfo ?? this.deviceInfo,
-          response: response ?? this.response);
+          response: response ?? this.response,
+          isInet: isInet ?? this.isInet);
 
   @override
   String toString() {
