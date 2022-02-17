@@ -12,8 +12,11 @@ export 'src/state_management/reactive_view_model.dart';
 export 'src/reactive/reactive_value/reactive_value.dart';
 export 'src/reactive/reactive_list/reactive_list.dart';
 
+export 'src/utils/environment_filter.dart';
 export 'src/utils/hive_util.dart';
 export 'src/utils/initial_util.dart';
+export 'src/utils/jbaza_locator.dart';
+export 'src/utils/jbaza_locator_annotations.dart';
 export 'src/utils/view_model_exception.dart';
 export 'src/utils/view_model_response.dart';
 
