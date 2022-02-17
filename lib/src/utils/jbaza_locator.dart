@@ -5,27 +5,27 @@ import 'package:get_it/get_it.dart';
 import 'environment_filter.dart';
 
 /// A thin wrapper around get_it to reduce the number of direct dependencies the user has to depend on.
-class StackedLocator {
-  static StackedLocator? _instance;
+class JbazaLocator {
+  static JbazaLocator? _instance;
 
   GetIt locator;
 
   EnvironmentFilter? _environmentFilter;
 
-  StackedLocator._(GetIt instance) : locator = instance {
+  JbazaLocator._(GetIt instance) : locator = instance {
     registerEnvironment();
   }
 
   /// access to the Singleton instance of GetIt
-  static StackedLocator get instance {
+  static JbazaLocator get instance {
     // ignore: join_return_with_assignment
-    _instance ??= StackedLocator._(GetIt.instance);
+    _instance ??= JbazaLocator._(GetIt.instance);
 
     return _instance!;
   }
 
-  factory StackedLocator.asNewInstance() {
-    return StackedLocator._(GetIt.asNewInstance());
+  factory JbazaLocator.asNewInstance() {
+    return JbazaLocator._(GetIt.asNewInstance());
   }
 
   void registerEnvironment({
