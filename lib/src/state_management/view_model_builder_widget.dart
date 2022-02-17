@@ -61,7 +61,7 @@ abstract class ViewModelBuilderWidget<T extends BaseViewModel>
   /// and is only ever built once.
   Widget? staticChildBuilder(BuildContext context) => null;
 
-  void onDestroy(T model);
+  void onDestroy(T model) {}
 
   late BuildContext mContext;
 

@@ -84,9 +84,6 @@ class ErrorInfoPage extends ViewModelBuilderWidget<ErrorsViewModel> {
   }
 
   @override
-  void onDestroy(ErrorsViewModel model) {}
-
-  @override
   ErrorsViewModel viewModelBuilder(BuildContext context) {
     return ErrorsViewModel();
   }
