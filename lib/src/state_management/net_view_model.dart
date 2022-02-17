@@ -5,7 +5,10 @@ import 'package:http/http.dart';
 import 'package:jbaza/jbaza.dart';
 
 abstract class NetViewModel extends BaseViewModel implements Client {
+  final client = Client();
   String? authToken;
+
+  NetViewModel({this.authToken});
 
   @override
   Future<Response> head(Uri url, {Map<String, String>? headers}) =>
@@ -43,6 +46,9 @@ abstract class NetViewModel extends BaseViewModel implements Client {
   }
 
   @override
+  void close() => client.close();
+
+  @override
   Future<Uint8List> readBytes(Uri url, {Map<String, String>? headers}) async {
     final response = await get(url, headers: headers);
     _checkResponseSuccess(url, response);
@@ -50,7 +56,7 @@ abstract class NetViewModel extends BaseViewModel implements Client {
   }
 
   @override
-  Future<StreamedResponse> send(BaseRequest request);
+  Future<StreamedResponse> send(BaseRequest request) => client.send(request);
 
   Future<Response> _sendUnstreamed(
       String method, Uri url, Map<String, String>? headers,
