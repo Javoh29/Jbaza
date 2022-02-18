@@ -3,89 +3,92 @@ import 'package:hive/hive.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 mixin HiveUtil {
-  Future<void> saveBox<T>(String key, T data, {List<int>? encrypKey}) async {
+  Future<void> saveBox<T>(String boxKey, T data,
+      {String? key, List<int>? encrypKey}) async {
     late Box<T> box;
-    if (Hive.isBoxOpen(key)) {
-      box = Hive.box<T>(key);
+    if (Hive.isBoxOpen(boxKey)) {
+      box = Hive.box<T>(boxKey);
     } else {
-      box = await Hive.openBox<T>(key,
+      box = await Hive.openBox<T>(boxKey,
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
-    box.put(key, data);
+    box.put(key ?? boxKey, data);
     if (T is HiveObject) {
       (data as HiveObject).save();
     }
   }
 
-  Future<void> addBox<T>(String key, T data, {List<int>? encrypKey}) async {
+  Future<void> addBox<T>(String boxKey, T data, {List<int>? encrypKey}) async {
     late Box<T> box;
-    if (Hive.isBoxOpen(key)) {
-      box = Hive.box<T>(key);
+    if (Hive.isBoxOpen(boxKey)) {
+      box = Hive.box<T>(boxKey);
     } else {
-      box = await Hive.openBox<T>(key,
+      box = await Hive.openBox<T>(boxKey,
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
     box.add(data);
   }
 
-  Future<void> addLazyBox<T>(String key, T data, {List<int>? encrypKey}) async {
+  Future<void> addLazyBox<T>(String boxKey, T data, {List<int>? encrypKey}) async {
     late LazyBox<T> box;
-    if (Hive.isBoxOpen(key)) {
-      box = Hive.lazyBox<T>(key);
+    if (Hive.isBoxOpen(boxKey)) {
+      box = Hive.lazyBox<T>(boxKey);
     } else {
-      box = await Hive.openLazyBox<T>(key,
+      box = await Hive.openLazyBox<T>(boxKey,
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
     box.add(data);
   }
 
-  Future<T?> getBox<T>(String key, {List<int>? encrypKey}) async {
+  Future<T?> getBox<T>(String boxKey,
+      {String? key, List<int>? encrypKey}) async {
     late Box<T> box;
-    if (Hive.isBoxOpen(key)) {
-      box = Hive.box<T>(key);
+    if (Hive.isBoxOpen(boxKey)) {
+      box = Hive.box<T>(boxKey);
     } else {
-      box = await Hive.openBox<T>(key,
+      box = await Hive.openBox<T>(boxKey,
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
-    return Future<T?>.value(box.get(key));
+    return Future<T?>.value(box.get(key ?? boxKey));
   }
 
-  Future<T?> getLazyBox<T>(String key, {List<int>? encrypKey}) async {
+  Future<T?> getLazyBox<T>(String boxKey,
+      {String? key, List<int>? encrypKey}) async {
     late LazyBox<T> box;
-    if (Hive.isBoxOpen(key)) {
-      box = Hive.lazyBox<T>(key);
+    if (Hive.isBoxOpen(boxKey)) {
+      box = Hive.lazyBox<T>(boxKey);
     } else {
-      box = await Hive.openLazyBox<T>(key,
+      box = await Hive.openLazyBox<T>(boxKey,
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
-    T? value = await box.get(key);
+    T? value = await box.get(key ?? boxKey);
     return Future<T?>.value(value);
   }
 
-  Future<List<T>?> getBoxAllValue<T>(String key, {List<int>? encrypKey}) async {
+  Future<List<T>?> getBoxAllValue<T>(String boxKey, {List<int>? encrypKey}) async {
     late Box<T> box;
-    if (Hive.isBoxOpen(key)) {
-      box = Hive.box<T>(key);
+    if (Hive.isBoxOpen(boxKey)) {
+      box = Hive.box<T>(boxKey);
     } else {
-      box = await Hive.openBox<T>(key,
+      box = await Hive.openBox<T>(boxKey,
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
     return Future<List<T>?>.value(box.toMap().values.toList());
   }
 
-  Future<List<T>?> getLazyBoxAllValue<T>(String key,
+  Future<List<T>?> getLazyBoxAllValue<T>(String boxKey,
       {List<int>? encrypKey}) async {
     late LazyBox<T> box;
-    if (Hive.isBoxOpen(key)) {
-      box = Hive.lazyBox<T>(key);
+    if (Hive.isBoxOpen(boxKey)) {
+      box = Hive.lazyBox<T>(boxKey);
     } else {
-      box = await Hive.openLazyBox<T>(key,
+      box = await Hive.openLazyBox<T>(boxKey,
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
@@ -97,57 +100,57 @@ mixin HiveUtil {
     return Future<List<T>?>.value(list);
   }
 
-  Future<void> deleteBox(String key, {List<int>? encrypKey}) async {
+  Future<void> deleteBox(String boxKey, {List<int>? encrypKey}) async {
     Box box;
-    if (Hive.isBoxOpen(key)) {
-      box = Hive.box(key);
+    if (Hive.isBoxOpen(boxKey)) {
+      box = Hive.box(boxKey);
     } else {
-      box = await Hive.openBox(key,
+      box = await Hive.openBox(boxKey,
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
     box.clear();
   }
 
-  Future<void> deleteLazyBox(String key, {List<int>? encrypKey}) async {
+  Future<void> deleteLazyBox(String boxKey, {List<int>? encrypKey}) async {
     LazyBox box;
-    if (Hive.isBoxOpen(key)) {
-      box = Hive.lazyBox(key);
+    if (Hive.isBoxOpen(boxKey)) {
+      box = Hive.lazyBox(boxKey);
     } else {
-      box = await Hive.openLazyBox(key,
+      box = await Hive.openLazyBox(boxKey,
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
     box.clear();
   }
 
-  Future<void> deleteBoxKey<T>(key, {List<int>? encrypKey}) async {
+  Future<void> deleteBoxKey<T>(boxKey, {List<int>? encrypKey}) async {
     late Box<T> box;
-    if (Hive.isBoxOpen(key)) {
-      box = Hive.box(key);
+    if (Hive.isBoxOpen(boxKey)) {
+      box = Hive.box(boxKey);
     } else {
-      box = await Hive.openBox<T>(key,
+      box = await Hive.openBox<T>(boxKey,
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
     box.clear();
   }
 
-  Future<void> deleteLazyBoxKey<T>(key, {List<int>? encrypKey}) async {
+  Future<void> deleteLazyBoxKey<T>(boxKey, {List<int>? encrypKey}) async {
     late LazyBox<T> box;
-    if (Hive.isBoxOpen(key)) {
-      box = Hive.lazyBox(key);
+    if (Hive.isBoxOpen(boxKey)) {
+      box = Hive.lazyBox(boxKey);
     } else {
-      box = await Hive.openLazyBox<T>(key,
+      box = await Hive.openLazyBox<T>(boxKey,
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
     box.clear();
   }
 
-  Future<void> closeBox(String key, {List<int>? encrypKey}) async {
+  Future<void> closeBox(String boxKey, {List<int>? encrypKey}) async {
     try {
-      final Box box = await Hive.openBox(key,
+      final Box box = await Hive.openBox(boxKey,
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
       box.close();
@@ -156,9 +159,9 @@ mixin HiveUtil {
     }
   }
 
-  Future<void> closeLazyBox(String key, {List<int>? encrypKey}) async {
+  Future<void> closeLazyBox(String boxKey, {List<int>? encrypKey}) async {
     try {
-      final LazyBox box = await Hive.openLazyBox(key,
+      final LazyBox box = await Hive.openLazyBox(boxKey,
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
       box.close();
