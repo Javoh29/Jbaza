@@ -10,7 +10,7 @@ String mAppVersion = '0.0.1';
 bool isEnableSentry = false;
 
 Future<void> setupConfigs(Function app, String sentryKey,
-    {List<TypeAdapter<dynamic>>? adapters,
+    {List<TypeAdapter>? adapters,
     double traces = 0.5,
     String? appVersion,
     bool enableSentry = false}) async {
@@ -32,7 +32,7 @@ Future<void> setupConfigs(Function app, String sentryKey,
   }
 }
 
-Future<void> _initHive([List<TypeAdapter<dynamic>>? adapters]) async {
+Future<void> _initHive([List<TypeAdapter>? adapters]) async {
   final directory = await getAppDirPath();
   Hive.init(directory!.path);
   adapters?.forEach((element) {
