@@ -1,5 +1,5 @@
-
 import 'package:hive/hive.dart';
+import 'package:jbaza/jbaza.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 mixin HiveUtil {
@@ -31,7 +31,8 @@ mixin HiveUtil {
     box.add(data);
   }
 
-  Future<void> addLazyBox<T>(String boxKey, T data, {List<int>? encrypKey}) async {
+  Future<void> addLazyBox<T>(String boxKey, T data,
+      {List<int>? encrypKey}) async {
     late LazyBox<T> box;
     if (Hive.isBoxOpen(boxKey)) {
       box = Hive.lazyBox<T>(boxKey);
@@ -70,7 +71,8 @@ mixin HiveUtil {
     return Future<T?>.value(value);
   }
 
-  Future<List<T>?> getBoxAllValue<T>(String boxKey, {List<int>? encrypKey}) async {
+  Future<List<T>?> getBoxAllValue<T>(String boxKey,
+      {List<int>? encrypKey}) async {
     late Box<T> box;
     if (Hive.isBoxOpen(boxKey)) {
       box = Hive.box<T>(boxKey);
@@ -155,7 +157,9 @@ mixin HiveUtil {
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
       box.close();
     } catch (e) {
-      Sentry.captureMessage(e.toString(), level: SentryLevel.error);
+      if (isEnableSentry) {
+        Sentry.captureMessage(e.toString(), level: SentryLevel.error);
+      }
     }
   }
 
@@ -166,7 +170,9 @@ mixin HiveUtil {
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
       box.close();
     } catch (e) {
-      Sentry.captureMessage(e.toString(), level: SentryLevel.error);
+      if (isEnableSentry) {
+        Sentry.captureMessage(e.toString(), level: SentryLevel.error);
+      }
     }
   }
 }

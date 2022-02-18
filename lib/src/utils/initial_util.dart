@@ -7,19 +7,19 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:share/share.dart';
 
 String mAppVersion = '0.0.1';
+bool isEnableSentry = false;
 
 Future<void> setupConfigs(Function app, String sentryKey,
     {List<TypeAdapter<dynamic>>? adapters,
     double traces = 0.5,
     String? appVersion,
-    bool offSentry = false}) async {
+    bool enableSentry = false}) async {
   if (appVersion != null) mAppVersion = appVersion;
+  isEnableSentry = enableSentry;
   adapters ??= [];
   adapters.add(VMExceptionAdapter());
   await _initHive(adapters);
-  if (offSentry) {
-    app();
-  } else {
+  if (enableSentry) {
     await SentryFlutter.init(
       (options) {
         options.dsn = sentryKey;
@@ -27,6 +27,8 @@ Future<void> setupConfigs(Function app, String sentryKey,
       },
       appRunner: app(),
     );
+  } else {
+    app();
   }
 }
 

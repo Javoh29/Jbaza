@@ -72,11 +72,16 @@ abstract class BaseViewModel extends ChangeNotifier {
             'Dev: ${androidInfo.manufacturer} - ${androidInfo.model}, OS: ${Platform.operatingSystem} ${androidInfo.version.release}, AppVersion: $mAppVersion';
       }
     } catch (e) {
-      Sentry.captureMessage(e.toString(), level: SentryLevel.error);
+      if (isEnableSentry) {
+        Sentry.captureMessage(e.toString(), level: SentryLevel.error);
+      }
     }
     value.deviceInfo = deviceInfo;
     addLazyBox<VMException>(errorLogKey, value);
-    Sentry.captureMessage(value.toJson().toString(), level: SentryLevel.error);
+    if (isEnableSentry) {
+      Sentry.captureMessage(value.toJson().toString(),
+          level: SentryLevel.error);
+    }
   }
 
   VMException? getVMError({String? tag}) => _errorStates[tag ?? _modelTag];
@@ -115,7 +120,8 @@ abstract class BaseViewModel extends ChangeNotifier {
     box.add(data);
   }
 
-  Future<void> addLazyBox<T>(String boxKey, T data, {List<int>? encrypKey}) async {
+  Future<void> addLazyBox<T>(String boxKey, T data,
+      {List<int>? encrypKey}) async {
     late LazyBox<T> box;
     if (Hive.isBoxOpen(boxKey)) {
       box = Hive.lazyBox<T>(boxKey);
@@ -154,7 +160,8 @@ abstract class BaseViewModel extends ChangeNotifier {
     return Future<T?>.value(value);
   }
 
-  Future<List<T>?> getBoxAllValue<T>(String boxKey, {List<int>? encrypKey}) async {
+  Future<List<T>?> getBoxAllValue<T>(String boxKey,
+      {List<int>? encrypKey}) async {
     late Box<T> box;
     if (Hive.isBoxOpen(boxKey)) {
       box = Hive.box<T>(boxKey);
@@ -239,7 +246,9 @@ abstract class BaseViewModel extends ChangeNotifier {
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
       box.close();
     } catch (e) {
-      Sentry.captureMessage(e.toString(), level: SentryLevel.error);
+      if (isEnableSentry) {
+        Sentry.captureMessage(e.toString(), level: SentryLevel.error);
+      }
     }
   }
 
@@ -250,7 +259,9 @@ abstract class BaseViewModel extends ChangeNotifier {
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
       box.close();
     } catch (e) {
-      Sentry.captureMessage(e.toString(), level: SentryLevel.error);
+      if (isEnableSentry) {
+        Sentry.captureMessage(e.toString(), level: SentryLevel.error);
+      }
     }
   }
 
