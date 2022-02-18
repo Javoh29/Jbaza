@@ -11,18 +11,23 @@ String mAppVersion = '0.0.1';
 Future<void> setupConfigs(Function app, String sentryKey,
     {List<TypeAdapter<dynamic>>? adapters,
     double traces = 0.5,
-    String? appVersion}) async {
+    String? appVersion,
+    bool offSentry = false}) async {
   if (appVersion != null) mAppVersion = appVersion;
   adapters ??= [];
   adapters.add(VMExceptionAdapter());
   await _initHive(adapters);
-  await SentryFlutter.init(
-    (options) {
-      options.dsn = sentryKey;
-      options.tracesSampleRate = traces;
-    },
-    appRunner: app(),
-  );
+  if (offSentry) {
+    app();
+  } else {
+    await SentryFlutter.init(
+      (options) {
+        options.dsn = sentryKey;
+        options.tracesSampleRate = traces;
+      },
+      appRunner: app(),
+    );
+  }
 }
 
 Future<void> _initHive([List<TypeAdapter<dynamic>>? adapters]) async {
