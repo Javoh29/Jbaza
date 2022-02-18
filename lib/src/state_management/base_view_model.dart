@@ -127,7 +127,7 @@ abstract class BaseViewModel extends ChangeNotifier {
     box.add(data);
   }
 
-  Future<T> getBox<T>(String key, {List<int>? encrypKey}) async {
+  Future<T?> getBox<T>(String key, {List<int>? encrypKey}) async {
     late Box<T> box;
     if (Hive.isBoxOpen(key)) {
       box = Hive.box<T>(key);
@@ -136,10 +136,10 @@ abstract class BaseViewModel extends ChangeNotifier {
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
-    return Future<T>.value(box.get(key));
+    return Future<T?>.value(box.get(key));
   }
 
-  Future<T> getLazyBox<T>(String key, {List<int>? encrypKey}) async {
+  Future<T?> getLazyBox<T>(String key, {List<int>? encrypKey}) async {
     late LazyBox<T> box;
     if (Hive.isBoxOpen(key)) {
       box = Hive.lazyBox<T>(key);
@@ -149,10 +149,10 @@ abstract class BaseViewModel extends ChangeNotifier {
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
     T? value = await box.get(key);
-    return Future<T>.value(value);
+    return Future<T?>.value(value);
   }
 
-  Future<List<T>> getBoxAllValue<T>(String key, {List<int>? encrypKey}) async {
+  Future<List<T>?> getBoxAllValue<T>(String key, {List<int>? encrypKey}) async {
     late Box<T> box;
     if (Hive.isBoxOpen(key)) {
       box = Hive.box<T>(key);
@@ -161,10 +161,10 @@ abstract class BaseViewModel extends ChangeNotifier {
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
-    return Future<List<T>>.value(box.toMap().values.toList());
+    return Future<List<T>?>.value(box.toMap().values.toList());
   }
 
-  Future<List<T>> getLazyBoxAllValue<T>(String key,
+  Future<List<T>?> getLazyBoxAllValue<T>(String key,
       {List<int>? encrypKey}) async {
     late LazyBox<T> box;
     if (Hive.isBoxOpen(key)) {
@@ -179,7 +179,7 @@ abstract class BaseViewModel extends ChangeNotifier {
       T? v = await box.get(e);
       if (v != null) list.add(v);
     }
-    return Future<List<T>>.value(list);
+    return Future<List<T>?>.value(list);
   }
 
   Future<void> deleteBox(String key, {List<int>? encrypKey}) async {
