@@ -75,7 +75,7 @@ abstract class BaseViewModel extends ChangeNotifier {
       Sentry.captureMessage(e.toString(), level: SentryLevel.error);
     }
     value.deviceInfo = deviceInfo;
-    saveLazyBox<VMException>(errorLogKey, value);
+    addLazyBox<VMException>(errorLogKey, value);
     Sentry.captureMessage(value.toJson().toString(), level: SentryLevel.error);
   }
 
@@ -87,7 +87,7 @@ abstract class BaseViewModel extends ChangeNotifier {
 
   void setOnModelReadyCalled(bool value) => _onModelReadyCalled = value;
 
-  Future<void> replaceBox<T>(String key, T data, {List<int>? encrypKey}) async {
+  Future<void> saveBox<T>(String key, T data, {List<int>? encrypKey}) async {
     late Box<T> box;
     if (Hive.isBoxOpen(key)) {
       box = Hive.box<T>(key);
@@ -102,7 +102,7 @@ abstract class BaseViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> saveBox<T>(String key, T data, {List<int>? encrypKey}) async {
+  Future<void> addBox<T>(String key, T data, {List<int>? encrypKey}) async {
     late Box<T> box;
     if (Hive.isBoxOpen(key)) {
       box = Hive.box<T>(key);
@@ -114,8 +114,7 @@ abstract class BaseViewModel extends ChangeNotifier {
     box.add(data);
   }
 
-  Future<void> saveLazyBox<T>(String key, T data,
-      {List<int>? encrypKey}) async {
+  Future<void> addLazyBox<T>(String key, T data, {List<int>? encrypKey}) async {
     late LazyBox<T> box;
     if (Hive.isBoxOpen(key)) {
       box = Hive.lazyBox<T>(key);
