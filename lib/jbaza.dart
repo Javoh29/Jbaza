@@ -5,7 +5,6 @@ export 'src/state_management/reactive_service_mixin.dart';
 export 'src/state_management/view_model_builder.dart';
 export 'src/state_management/view_model_builder_widget.dart';
 export 'src/state_management/view_model_widget.dart';
-export 'src/state_management/net_view_model.dart';
 export 'src/state_management/hooks_view model_widget.dart';
 export 'src/state_management/reactive_view_model.dart';
 
@@ -23,4 +22,4 @@ export 'src/utils/view_model_response.dart';
 export 'src/widgets/errors_page.dart';
 export 'src/widgets/error_info_page.dart';
 
-export 'package:http/http.dart';
+export 'package:path_provider/path_provider.dart';

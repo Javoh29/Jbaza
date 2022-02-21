@@ -55,8 +55,8 @@ class ErrorsViewModel extends BaseViewModel {
 
   Future<void> shareError(List<VMException> list) async {
     try {
-      var dir = await getAppDirPath();
-      final filePath = '${dir!.path}/jbaza_errors.json';
+      var dir = await getApplicationSupportDirectory();
+      final filePath = '${dir.path}/jbaza_errors.json';
       final File file = File(filePath);
       List<VMException> vmeList = [];
       vmeList.addAll(list);
