@@ -22,3 +22,5 @@ export 'src/utils/view_model_response.dart';
 
 export 'src/widgets/errors_page.dart';
 export 'src/widgets/error_info_page.dart';
+
+export 'package:http/http.dart';
