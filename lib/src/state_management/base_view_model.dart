@@ -255,6 +255,9 @@ abstract class BaseViewModel extends ChangeNotifier {
   @override
   void dispose() {
     _disposed = true;
+    _busyStates.clear();
+    _errorStates.clear();
+    _successStates.clear();
     Hive.close();
     super.dispose();
   }
