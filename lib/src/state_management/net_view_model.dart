@@ -49,6 +49,12 @@ abstract class NetViewModel extends BaseViewModel implements Client {
   void close() => client.close();
 
   @override
+  void dispose() {
+    close();
+    super.dispose();
+  }
+
+  @override
   Future<Uint8List> readBytes(Uri url, {Map<String, String>? headers}) async {
     final response = await get(url, headers: headers);
     _checkResponseSuccess(url, response);
