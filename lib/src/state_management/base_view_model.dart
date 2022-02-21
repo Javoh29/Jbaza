@@ -1,7 +1,5 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
-import 'package:jbaza/src/utils/view_model_response.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../utils/initial_util.dart';
@@ -11,7 +9,7 @@ import '../utils/view_model_exception.dart';
 abstract class BaseViewModel extends ChangeNotifier {
   final Map<String, bool> _busyStates = <String, bool>{};
   final Map<String, VMException> _errorStates = <String, VMException>{};
-  final Map<String, VMResponse> _successStates = <String, VMResponse>{};
+  final Map<String, dynamic> _successStates = <String, dynamic>{};
 
   final String errorLogKey = 'jbaza_error_log';
   String _modelTag = "BaseViewModel";
@@ -49,8 +47,8 @@ abstract class BaseViewModel extends ChangeNotifier {
     _sendToSave(value);
   }
 
-  void setSuccess({VMResponse? value, String? tag, bool change = true}) {
-    value ??= VMResponse(true);
+  void setSuccess({dynamic value, String? tag, bool change = true}) {
+    value ??= true;
     value.tag = tag ?? modelTag;
     _successStates[value.tag] = value;
     _busyStates.remove(value.tag);
@@ -68,7 +66,7 @@ abstract class BaseViewModel extends ChangeNotifier {
 
   VMException? getVMError({String? tag}) => _errorStates[tag ?? _modelTag];
 
-  VMResponse? getVMResponse({String? tag}) => _successStates[tag ?? _modelTag];
+  dynamic getVMResponse({String? tag}) => _successStates[tag ?? _modelTag];
 
   void setInitialised(bool value) => _initialised = value;
 
