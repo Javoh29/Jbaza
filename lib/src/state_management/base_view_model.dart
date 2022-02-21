@@ -1,6 +1,4 @@
-import 'dart:io';
 
-import 'package:device_info/device_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:jbaza/src/utils/view_model_response.dart';
@@ -60,22 +58,6 @@ abstract class BaseViewModel extends ChangeNotifier {
   }
 
   Future<void> _sendToSave(VMException value) async {
-    String deviceInfo = 'Unknown device, AppVersion: $mAppVersion';
-    try {
-      if (Platform.isIOS) {
-        var iosInfo = await DeviceInfoPlugin().iosInfo;
-        deviceInfo =
-            'Dev: ${iosInfo.name} - ${iosInfo.model}, OS: ${Platform.operatingSystem} ${iosInfo.systemVersion}, AppVersion: $mAppVersion';
-      } else if (Platform.isAndroid) {
-        var androidInfo = await DeviceInfoPlugin().androidInfo;
-        deviceInfo =
-            'Dev: ${androidInfo.manufacturer} - ${androidInfo.model}, OS: ${Platform.operatingSystem} ${androidInfo.version.release}, AppVersion: $mAppVersion';
-      }
-    } catch (e) {
-      if (isEnableSentry) {
-        Sentry.captureMessage(e.toString(), level: SentryLevel.error);
-      }
-    }
     value.deviceInfo = deviceInfo;
     addLazyBox<VMException>(errorLogKey, value);
     if (isEnableSentry) {
