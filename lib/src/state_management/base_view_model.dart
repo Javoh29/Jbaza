@@ -32,7 +32,10 @@ abstract class BaseViewModel extends ChangeNotifier {
   bool isSuccess({String? tag}) => _successStates[tag ?? _modelTag] != null;
 
   void setBusy(bool value, {String? tag, bool change = true}) {
-    _busyStates[tag ?? _modelTag] = value;
+    String mTag = tag ?? _modelTag;
+    _busyStates[mTag] = value;
+    _errorStates.remove(mTag);
+    _successStates.remove(mTag);
     if (change) notifyListeners();
   }
 
@@ -43,6 +46,7 @@ abstract class BaseViewModel extends ChangeNotifier {
         '${curTime.day}-${curTime.month}-${curTime.year} (${curTime.hour}:${curTime.minute})';
     _errorStates[value.tag] = value;
     _busyStates.remove(value.tag);
+    _successStates.remove(value.tag);
     if (change) notifyListeners();
     _sendToSave(value);
   }
@@ -52,6 +56,7 @@ abstract class BaseViewModel extends ChangeNotifier {
     value.tag = tag ?? modelTag;
     _successStates[value.tag] = value;
     _busyStates.remove(value.tag);
+    _errorStates.remove(value.tag);
     if (change) notifyListeners();
   }
 
