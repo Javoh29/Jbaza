@@ -57,10 +57,10 @@ abstract class BaseViewModel extends ChangeNotifier {
 
   void setSuccess({dynamic value, String? tag, bool change = true}) {
     value ??= true;
-    value.tag = tag ?? modelTag;
-    _successStates[value.tag] = value;
-    _busyStates.remove(value.tag);
-    _errorStates.remove(value.tag);
+    String mTag = tag ?? modelTag;
+    _successStates[mTag] = value;
+    _busyStates.remove(mTag);
+    _errorStates.remove(mTag);
     if (change) notifyListeners();
   }
 
