@@ -7,12 +7,16 @@ import '../utils/view_model_exception.dart';
 
 /// Contains ViewModel functionality for busy state management
 abstract class BaseViewModel extends ChangeNotifier {
+  BaseViewModel({String? tag}) {
+    _modelTag = tag ?? 'BaseViewModel';
+  }
+
   final Map<String, bool> _busyStates = <String, bool>{};
   final Map<String, VMException> _errorStates = <String, VMException>{};
   final Map<String, dynamic> _successStates = <String, dynamic>{};
 
   final String errorLogKey = 'jbaza_error_log';
-  String _modelTag = "BaseViewModel";
+  late String _modelTag;
   String get modelTag => _modelTag;
   void setModelTag(String value) => _modelTag = value;
 
