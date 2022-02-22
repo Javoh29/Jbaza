@@ -28,6 +28,7 @@ class VMException extends HiveObject {
   @HiveField(10)
   String? tokenIsValid;
   bool isInet = false;
+  String? action;
   Response? response;
 
   VMException(this.message,
@@ -42,7 +43,8 @@ class VMException extends HiveObject {
       this.responsePhrase,
       this.responseBody,
       this.tokenIsValid,
-      this.isInet = false}) {
+      this.isInet = false,
+      this.action}) {
     if (response != null) {
       baseRequest = response!.request.toString();
       responseStatusCode = response!.statusCode.toString();
@@ -62,6 +64,7 @@ class VMException extends HiveObject {
         time: json['time'],
         callFuncName: json['call_func_name'],
         lineNum: json['line_num'],
+        action: json['action'],
         baseRequest: json['base_request'],
         responseStatusCode: json['response_status_code'],
         responsePhrase: json['response_phrase'],
@@ -77,6 +80,7 @@ class VMException extends HiveObject {
         'time:': time,
         'call_func_name': callFuncName,
         'line_num': lineNum,
+        'action': action,
         'base_request': baseRequest,
         'response_status_code': responseStatusCode,
         'response_phrase': responsePhrase,
@@ -89,7 +93,8 @@ class VMException extends HiveObject {
         'message': message,
         'time:': time,
         'call_func_name': callFuncName,
-        'line_num': lineNum
+        'line_num': lineNum,
+        'action': action
       };
     }
   }
@@ -100,13 +105,15 @@ class VMException extends HiveObject {
           String? lineNum,
           String? deviceInfo,
           Response? response,
-          bool? isInet}) =>
+          bool? isInet,
+          String? action}) =>
       VMException(message ?? this.message,
           callFuncName: callFuncName ?? this.callFuncName,
           lineNum: lineNum ?? this.lineNum,
           deviceInfo: deviceInfo ?? this.deviceInfo,
           response: response ?? this.response,
-          isInet: isInet ?? this.isInet);
+          isInet: isInet ?? this.isInet,
+          action: action ?? this.action);
 
   @override
   String toString() {
@@ -116,6 +123,7 @@ class VMException extends HiveObject {
     sb.write(', Time($time)');
     sb.write(', Call func name: $callFuncName');
     sb.write(', Line num: $lineNum');
+    sb.write(', Action: $action');
     if (response != null) {
       sb.write(', Base request: $baseRequest');
       sb.write(', Response status code: $responseStatusCode');
