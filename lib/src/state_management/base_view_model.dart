@@ -267,7 +267,6 @@ abstract class BaseViewModel extends ChangeNotifier {
     _busyStates.clear();
     _errorStates.clear();
     _successStates.clear();
-    Hive.close();
     super.dispose();
   }
 }

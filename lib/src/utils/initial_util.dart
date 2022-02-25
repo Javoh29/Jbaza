@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:device_info/device_info.dart';
-import 'package:hive/hive.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:share/share.dart';

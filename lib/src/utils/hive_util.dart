@@ -1,4 +1,3 @@
-import 'package:hive/hive.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
