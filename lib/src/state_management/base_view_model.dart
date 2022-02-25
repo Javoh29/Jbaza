@@ -91,9 +91,10 @@ abstract class BaseViewModel extends ChangeNotifier {
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
-    box.put(key ?? boxKey, data);
     if (T is HiveObject) {
       (data as HiveObject).save();
+    } else {
+      box.put(key ?? boxKey, data);
     }
   }
 
