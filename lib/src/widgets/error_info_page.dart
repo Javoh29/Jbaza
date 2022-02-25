@@ -47,7 +47,7 @@ class ErrorInfoPage extends ViewModelBuilderWidget<ErrorsViewModel> {
           const SizedBox(height: 15),
           _item('Call func name:', _vmException.callFuncName),
           const SizedBox(height: 15),
-          _item('Line num:', _vmException.lineNum),
+          _item('Line:', _vmException.line),
           const SizedBox(height: 15),
           _item('Base request', _vmException.baseRequest),
           const SizedBox(height: 15),

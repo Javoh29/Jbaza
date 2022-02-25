@@ -14,7 +14,7 @@ class VMException extends HiveObject {
   @HiveField(3)
   String? callFuncName;
   @HiveField(4)
-  String? lineNum;
+  String? line;
   @HiveField(5)
   String? deviceInfo;
   @HiveField(6)
@@ -35,7 +35,7 @@ class VMException extends HiveObject {
       {this.tag = '',
       this.time = '',
       this.callFuncName,
-      this.lineNum,
+      this.line,
       this.deviceInfo,
       this.response,
       this.baseRequest,
@@ -63,7 +63,7 @@ class VMException extends HiveObject {
         tag: json['tag'],
         time: json['time'],
         callFuncName: json['call_func_name'],
-        lineNum: json['line_num'],
+        line: json['line'],
         action: json['action'],
         baseRequest: json['base_request'],
         responseStatusCode: json['response_status_code'],
@@ -79,7 +79,7 @@ class VMException extends HiveObject {
         'message': message,
         'time:': time,
         'call_func_name': callFuncName,
-        'line_num': lineNum,
+        'line': line,
         'action': action,
         'base_request': baseRequest,
         'response_status_code': responseStatusCode,
@@ -93,7 +93,7 @@ class VMException extends HiveObject {
         'message': message,
         'time:': time,
         'call_func_name': callFuncName,
-        'line_num': lineNum,
+        'line': line,
         'action': action
       };
     }
@@ -102,14 +102,14 @@ class VMException extends HiveObject {
   VMException copyWith(
           {String? message,
           String? callFuncName,
-          String? lineNum,
+          String? line,
           String? deviceInfo,
           Response? response,
           bool? isInet,
           String? action}) =>
       VMException(message ?? this.message,
           callFuncName: callFuncName ?? this.callFuncName,
-          lineNum: lineNum ?? this.lineNum,
+          line: line ?? this.line,
           deviceInfo: deviceInfo ?? this.deviceInfo,
           response: response ?? this.response,
           isInet: isInet ?? this.isInet,
@@ -122,7 +122,7 @@ class VMException extends HiveObject {
     sb.write('Message: $message');
     sb.write(', Time($time)');
     sb.write(', Call func name: $callFuncName');
-    sb.write(', Line num: $lineNum');
+    sb.write(', Line: $line');
     sb.write(', Action: $action');
     if (response != null) {
       sb.write(', Base request: $baseRequest');

@@ -19,7 +19,7 @@ class VMExceptionAdapter extends TypeAdapter<VMException> {
     return VMException(
       fields[0] as String,
       callFuncName: fields[3] as String?,
-      lineNum: fields[4] as String?,
+      line: fields[4] as String?,
       deviceInfo: fields[5] as String?,
     )
       ..tag = fields[1] as String
@@ -44,7 +44,7 @@ class VMExceptionAdapter extends TypeAdapter<VMException> {
       ..writeByte(3)
       ..write(obj.callFuncName)
       ..writeByte(4)
-      ..write(obj.lineNum)
+      ..write(obj.line)
       ..writeByte(5)
       ..write(obj.deviceInfo)
       ..writeByte(6)
