@@ -22,3 +22,4 @@ export 'src/widgets/errors_page.dart';
 export 'src/widgets/error_info_page.dart';
 
 export 'package:path_provider/path_provider.dart';
+export 'package:hive/hive.dart';
