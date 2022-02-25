@@ -98,6 +98,23 @@ abstract class BaseViewModel extends ChangeNotifier {
     }
   }
 
+  Future<void> saveLazyBox<T>(String boxKey, T data,
+      {String? key, List<int>? encrypKey}) async {
+    late LazyBox<T> box;
+    if (Hive.isBoxOpen(boxKey)) {
+      box = Hive.lazyBox<T>(boxKey);
+    } else {
+      box = await Hive.openLazyBox<T>(boxKey,
+          encryptionCipher:
+              encrypKey != null ? HiveAesCipher(encrypKey) : null);
+    }
+    if (T is HiveObject) {
+      (data as HiveObject).save();
+    } else {
+      box.put(key ?? boxKey, data);
+    }
+  }
+
   Future<void> addBox<T>(String boxKey, T data, {List<int>? encrypKey}) async {
     late Box<T> box;
     if (Hive.isBoxOpen(boxKey)) {
