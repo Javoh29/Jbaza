@@ -82,7 +82,7 @@ abstract class BaseViewModel extends ChangeNotifier {
   void setOnModelReadyCalled(bool value) => _onModelReadyCalled = value;
 
   Future<void> saveBox<T>(String boxKey, T data,
-      {String? key, List<int>? encrypKey}) async {
+      {dynamic key, List<int>? encrypKey}) async {
     late Box<T> box;
     if (Hive.isBoxOpen(boxKey)) {
       box = Hive.box<T>(boxKey);
@@ -99,7 +99,7 @@ abstract class BaseViewModel extends ChangeNotifier {
   }
 
   Future<void> saveLazyBox<T>(String boxKey, T data,
-      {String? key, List<int>? encrypKey}) async {
+      {dynamic key, List<int>? encrypKey}) async {
     late LazyBox<T> box;
     if (Hive.isBoxOpen(boxKey)) {
       box = Hive.lazyBox<T>(boxKey);
@@ -141,7 +141,7 @@ abstract class BaseViewModel extends ChangeNotifier {
   }
 
   Future<T?> getBox<T>(String boxKey,
-      {String? key, List<int>? encrypKey}) async {
+      {dynamic key, List<int>? encrypKey}) async {
     late Box<T> box;
     if (Hive.isBoxOpen(boxKey)) {
       box = Hive.box<T>(boxKey);
@@ -154,7 +154,7 @@ abstract class BaseViewModel extends ChangeNotifier {
   }
 
   Future<T?> getLazyBox<T>(String boxKey,
-      {String? key, List<int>? encrypKey}) async {
+      {dynamic key, List<int>? encrypKey}) async {
     late LazyBox<T> box;
     if (Hive.isBoxOpen(boxKey)) {
       box = Hive.lazyBox<T>(boxKey);
