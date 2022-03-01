@@ -10,15 +10,12 @@ String deviceInfo = 'Unknown device, AppVersion: $mAppVersion';
 bool isEnableSentry = false;
 
 Future<void> setupConfigs(Function app, String sentryKey,
-    {List<TypeAdapter<dynamic>>? adapters,
-    double traces = 0.5,
+    {double traces = 0.5,
     String? appVersion,
     bool enableSentry = false}) async {
   if (appVersion != null) mAppVersion = appVersion;
   isEnableSentry = enableSentry;
-  adapters ??= [];
-  adapters.add(VMExceptionAdapter());
-  await _initHive(adapters);
+  await _initHive();
   if (enableSentry) {
     await SentryFlutter.init(
       (options) {
@@ -33,12 +30,10 @@ Future<void> setupConfigs(Function app, String sentryKey,
   await _getDeviceInfo();
 }
 
-Future<void> _initHive([List<TypeAdapter<dynamic>>? adapters]) async {
+Future<void> _initHive() async {
   final directory = await getApplicationSupportDirectory();
   Hive.init(directory.path);
-  adapters?.forEach((element) {
-    Hive.registerAdapter(element);
-  });
+  Hive.registerAdapter<VMException>(VMExceptionAdapter());
 }
 
 Future<void> _getDeviceInfo() async {
