@@ -125,7 +125,7 @@ mixin HiveUtil {
     box.clear();
   }
 
-  Future<void> deleteBoxKey<T>(boxKey, {List<int>? encrypKey}) async {
+  Future<void> deleteBoxKey<T>(boxKey, key, {List<int>? encrypKey}) async {
     late Box<T> box;
     if (Hive.isBoxOpen(boxKey)) {
       box = Hive.box(boxKey);
@@ -134,10 +134,10 @@ mixin HiveUtil {
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
-    box.clear();
+    box.delete(key);
   }
 
-  Future<void> deleteLazyBoxKey<T>(boxKey, {List<int>? encrypKey}) async {
+  Future<void> deleteLazyBoxKey<T>(boxKey, key, {List<int>? encrypKey}) async {
     late LazyBox<T> box;
     if (Hive.isBoxOpen(boxKey)) {
       box = Hive.lazyBox(boxKey);
@@ -146,7 +146,7 @@ mixin HiveUtil {
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
-    box.clear();
+    box.delete(key);
   }
 
   Future<void> closeBox(String boxKey, {List<int>? encrypKey}) async {
