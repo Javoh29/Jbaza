@@ -198,7 +198,7 @@ abstract class BaseViewModel extends ChangeNotifier {
     return Future<List<T>?>.value(list);
   }
 
-  Future<void> deleteBox(String boxKey, {List<int>? encrypKey}) async {
+  Future<void> deleteBox<T>(String boxKey, {List<int>? encrypKey}) async {
     Box box;
     if (Hive.isBoxOpen(boxKey)) {
       box = Hive.box(boxKey);
@@ -210,7 +210,7 @@ abstract class BaseViewModel extends ChangeNotifier {
     box.clear();
   }
 
-  Future<void> deleteLazyBox(String boxKey, {List<int>? encrypKey}) async {
+  Future<void> deleteLazyBox<T>(String boxKey, {List<int>? encrypKey}) async {
     LazyBox box;
     if (Hive.isBoxOpen(boxKey)) {
       box = Hive.lazyBox(boxKey);
@@ -222,7 +222,7 @@ abstract class BaseViewModel extends ChangeNotifier {
     box.clear();
   }
 
-  Future<void> deleteBoxKey<T>(boxKey, {List<int>? encrypKey}) async {
+  Future<void> deleteBoxKey<T>(boxKey, key, {List<int>? encrypKey}) async {
     late Box<T> box;
     if (Hive.isBoxOpen(boxKey)) {
       box = Hive.box(boxKey);
@@ -231,10 +231,10 @@ abstract class BaseViewModel extends ChangeNotifier {
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
-    box.clear();
+    box.delete(key);
   }
 
-  Future<void> deleteLazyBoxKey<T>(boxKey, {List<int>? encrypKey}) async {
+  Future<void> deleteLazyBoxKey<T>(boxKey, key, {List<int>? encrypKey}) async {
     late LazyBox<T> box;
     if (Hive.isBoxOpen(boxKey)) {
       box = Hive.lazyBox(boxKey);
@@ -243,7 +243,7 @@ abstract class BaseViewModel extends ChangeNotifier {
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
-    box.clear();
+    box.delete(key);
   }
 
   Future<void> closeBox(String boxKey, {List<int>? encrypKey}) async {

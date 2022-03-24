@@ -46,7 +46,7 @@ class ErrorsViewModel extends BaseViewModel {
     try {
       _errorsList.clear();
       _filterErrorsList.clear();
-      await deleteLazyBoxKey<VMException>(errorLogKey);
+      await deleteLazyBox<VMException>(errorLogKey);
       setSuccess();
     } catch (e) {
       setError(VMException(e.toString(), callFuncName: 'deleteAllError'));
