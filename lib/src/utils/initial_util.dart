@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
@@ -9,7 +10,7 @@ String mAppVersion = '0.0.1';
 String deviceInfo = 'Unknown device, AppVersion: $mAppVersion';
 bool isEnableSentry = false;
 
-Future<void> setupConfigs(Function app, String sentryKey,
+Future<void> setupConfigs(FutureOr<void> Function() app, String sentryKey,
     {double traces = 0.5,
     String? appVersion,
     bool enableSentry = false}) async {
@@ -22,7 +23,7 @@ Future<void> setupConfigs(Function app, String sentryKey,
         options.dsn = sentryKey;
         options.tracesSampleRate = traces;
       },
-      appRunner: app(),
+      appRunner: app,
     );
   } else {
     app();
