@@ -17,7 +17,7 @@ class ErrorInfoPage extends ViewModelBuilderWidget<ErrorsViewModel> {
         children: [
           ListView(
             physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.fromLTRB(15, 70, 15, 15),
+            padding: const EdgeInsets.fromLTRB(15, 80, 15, 15),
             shrinkWrap: true,
             children: [
               _item('TAG:', _vmException.tag),
@@ -43,7 +43,7 @@ class ErrorInfoPage extends ViewModelBuilderWidget<ErrorsViewModel> {
           ),
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(
                 color: Colors.grey[900],
                 boxShadow: const [
