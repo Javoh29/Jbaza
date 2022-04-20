@@ -15,31 +15,33 @@ class ErrorInfoPage extends ViewModelBuilderWidget<ErrorsViewModel> {
       backgroundColor: Colors.grey[800],
       body: Stack(
         children: [
-          ListView(
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.fromLTRB(15, 80, 15, 15),
-            shrinkWrap: true,
-            children: [
-              _item('TAG:', _vmException.tag),
-              const SizedBox(height: 15),
-              _item('Create time:', _vmException.time),
-              const SizedBox(height: 15),
-              _item('Call func name:', _vmException.callFuncName),
-              const SizedBox(height: 15),
-              _item('Line:', _vmException.line),
-              const SizedBox(height: 15),
-              _item('Base request', _vmException.baseRequest),
-              const SizedBox(height: 15),
-              _item('Response status code:', _vmException.responseStatusCode),
-              const SizedBox(height: 15),
-              _item('Response phrase:', _vmException.responsePhrase),
-              const SizedBox(height: 15),
-              _item('Response body:', _vmException.responseBody),
-              const SizedBox(height: 15),
-              _item('Token is valid:', _vmException.tokenIsValid),
-              const SizedBox(height: 15),
-              _item('Message:', _vmException.message)
-            ],
+          SafeArea(
+            child: ListView(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.fromLTRB(15, 70, 15, 15),
+              shrinkWrap: true,
+              children: [
+                _item('TAG:', _vmException.tag),
+                const SizedBox(height: 15),
+                _item('Create time:', _vmException.time),
+                const SizedBox(height: 15),
+                _item('Call func name:', _vmException.callFuncName),
+                const SizedBox(height: 15),
+                _item('Line:', _vmException.line),
+                const SizedBox(height: 15),
+                _item('Base request', _vmException.baseRequest),
+                const SizedBox(height: 15),
+                _item('Response status code:', _vmException.responseStatusCode),
+                const SizedBox(height: 15),
+                _item('Response phrase:', _vmException.responsePhrase),
+                const SizedBox(height: 15),
+                _item('Response body:', _vmException.responseBody),
+                const SizedBox(height: 15),
+                _item('Token is valid:', _vmException.tokenIsValid),
+                const SizedBox(height: 15),
+                _item('Message:', _vmException.message)
+              ],
+            ),
           ),
           Container(
             width: double.infinity,
