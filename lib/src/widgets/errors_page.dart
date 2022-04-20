@@ -26,6 +26,10 @@ class ErrorsPage extends ViewModelBuilderWidget<ErrorsViewModel> {
     }
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      supportedLocales: const [
+        Locale('ru'),
+        Locale('en'),
+      ],
       theme: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       home: Scaffold(
         backgroundColor: Colors.grey[800],
