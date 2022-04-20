@@ -13,46 +13,46 @@ class ErrorInfoPage extends ViewModelBuilderWidget<ErrorsViewModel> {
       BuildContext context, ErrorsViewModel viewModel, Widget? child) {
     return Scaffold(
       backgroundColor: Colors.grey[800],
-      body: SafeArea(
-        child: Stack(
-          children: [
-            ListView(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.fromLTRB(15, 70, 15, 15),
-              shrinkWrap: true,
-              children: [
-                _item('TAG:', _vmException.tag),
-                const SizedBox(height: 15),
-                _item('Create time:', _vmException.time),
-                const SizedBox(height: 15),
-                _item('Call func name:', _vmException.callFuncName),
-                const SizedBox(height: 15),
-                _item('Line:', _vmException.line),
-                const SizedBox(height: 15),
-                _item('Base request', _vmException.baseRequest),
-                const SizedBox(height: 15),
-                _item('Response status code:', _vmException.responseStatusCode),
-                const SizedBox(height: 15),
-                _item('Response phrase:', _vmException.responsePhrase),
-                const SizedBox(height: 15),
-                _item('Response body:', _vmException.responseBody),
-                const SizedBox(height: 15),
-                _item('Token is valid:', _vmException.tokenIsValid),
-                const SizedBox(height: 15),
-                _item('Message:', _vmException.message)
-              ],
-            ),
-            Container(
-              height: 55,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: Colors.grey[900],
-                  boxShadow: const [
-                    BoxShadow(
-                        offset: Offset(0, 2),
-                        color: Colors.black45,
-                        blurRadius: 5)
-                  ]),
+      body: Stack(
+        children: [
+          ListView(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.fromLTRB(15, 70, 15, 15),
+            shrinkWrap: true,
+            children: [
+              _item('TAG:', _vmException.tag),
+              const SizedBox(height: 15),
+              _item('Create time:', _vmException.time),
+              const SizedBox(height: 15),
+              _item('Call func name:', _vmException.callFuncName),
+              const SizedBox(height: 15),
+              _item('Line:', _vmException.line),
+              const SizedBox(height: 15),
+              _item('Base request', _vmException.baseRequest),
+              const SizedBox(height: 15),
+              _item('Response status code:', _vmException.responseStatusCode),
+              const SizedBox(height: 15),
+              _item('Response phrase:', _vmException.responsePhrase),
+              const SizedBox(height: 15),
+              _item('Response body:', _vmException.responseBody),
+              const SizedBox(height: 15),
+              _item('Token is valid:', _vmException.tokenIsValid),
+              const SizedBox(height: 15),
+              _item('Message:', _vmException.message)
+            ],
+          ),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            decoration: BoxDecoration(
+                color: Colors.grey[900],
+                boxShadow: const [
+                  BoxShadow(
+                      offset: Offset(0, 1),
+                      color: Colors.black26,
+                      blurRadius: 10)
+                ]),
+            child: SafeArea(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -79,9 +79,9 @@ class ErrorInfoPage extends ViewModelBuilderWidget<ErrorsViewModel> {
                       ))
                 ],
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }
