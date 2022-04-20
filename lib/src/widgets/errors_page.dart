@@ -30,6 +30,7 @@ class ErrorsPage extends ViewModelBuilderWidget<ErrorsViewModel> {
         Locale('ru'),
         Locale('en'),
       ],
+      locale: const Locale('ru'),
       theme: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       home: Scaffold(
         backgroundColor: Colors.grey[800],
