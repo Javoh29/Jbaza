@@ -246,12 +246,17 @@ abstract class BaseViewModel extends ChangeNotifier {
     box.delete(key);
   }
 
-  Future<void> closeBox(String boxKey, {List<int>? encrypKey}) async {
+  Future<void> closeBox<T>(String boxKey, {List<int>? encrypKey}) async {
     try {
-      final Box box = await Hive.openBox(boxKey,
-          encryptionCipher:
-              encrypKey != null ? HiveAesCipher(encrypKey) : null);
-      box.close();
+      late Box<T> box;
+      if (Hive.isBoxOpen(boxKey)) {
+        box = Hive.box(boxKey);
+      } else {
+        box = await Hive.openBox<T>(boxKey,
+            encryptionCipher:
+                encrypKey != null ? HiveAesCipher(encrypKey) : null);
+      }
+      await box.close();
     } catch (e) {
       if (isEnableSentry) {
         Sentry.captureMessage(e.toString(), level: SentryLevel.error);
@@ -259,12 +264,17 @@ abstract class BaseViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> closeLazyBox(String boxKey, {List<int>? encrypKey}) async {
+  Future<void> closeLazyBox<T>(String boxKey, {List<int>? encrypKey}) async {
     try {
-      final LazyBox box = await Hive.openLazyBox(boxKey,
-          encryptionCipher:
-              encrypKey != null ? HiveAesCipher(encrypKey) : null);
-      box.close();
+      late LazyBox<T> box;
+      if (Hive.isBoxOpen(boxKey)) {
+        box = Hive.lazyBox(boxKey);
+      } else {
+        box = await Hive.openLazyBox<T>(boxKey,
+            encryptionCipher:
+                encrypKey != null ? HiveAesCipher(encrypKey) : null);
+      }
+      await box.close();
     } catch (e) {
       if (isEnableSentry) {
         Sentry.captureMessage(e.toString(), level: SentryLevel.error);
