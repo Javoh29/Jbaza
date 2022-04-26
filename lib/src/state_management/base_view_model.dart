@@ -91,11 +91,7 @@ abstract class BaseViewModel extends ChangeNotifier {
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
-    if (T is HiveObject) {
-      (data as HiveObject).save();
-    } else {
-      box.put(key ?? boxKey, data);
-    }
+    box.put(key ?? boxKey, data);
   }
 
   Future<void> saveLazyBox<T>(String boxKey, T data,
@@ -108,11 +104,7 @@ abstract class BaseViewModel extends ChangeNotifier {
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
-    if (T is HiveObject) {
-      (data as HiveObject).save();
-    } else {
-      box.put(key ?? boxKey, data);
-    }
+    box.put(key ?? boxKey, data);
   }
 
   Future<void> addBox<T>(String boxKey, T data, {List<int>? encrypKey}) async {
