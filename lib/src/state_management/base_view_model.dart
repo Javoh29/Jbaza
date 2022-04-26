@@ -272,12 +272,12 @@ abstract class BaseViewModel extends ChangeNotifier {
     }
   }
 
-  Future<Box?> getHiveBox(String boxKey) async {
+  Future<Box?> getHiveBox<T>(String boxKey) async {
     try {
       if (Hive.isBoxOpen(boxKey)) {
-        return Hive.box(boxKey);
+        return Hive.box<T>(boxKey);
       } else {
-        return Future.value(Hive.openBox(boxKey));
+        return Future.value(Hive.openBox<T>(boxKey));
       }
     } catch (e) {
       if (isEnableSentry) {
@@ -287,12 +287,12 @@ abstract class BaseViewModel extends ChangeNotifier {
     return null;
   }
 
-  Future<LazyBox?> getHiveLazyBox(String boxKey) async {
+  Future<LazyBox?> getHiveLazyBox<T>(String boxKey) async {
     try {
       if (Hive.isBoxOpen(boxKey)) {
-        return Hive.lazyBox(boxKey);
+        return Hive.lazyBox<T>(boxKey);
       } else {
-        return Future.value(Hive.openLazyBox(boxKey));
+        return Future.value(Hive.openLazyBox<T>(boxKey));
       }
     } catch (e) {
       if (isEnableSentry) {
