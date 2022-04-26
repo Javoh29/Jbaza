@@ -272,6 +272,36 @@ abstract class BaseViewModel extends ChangeNotifier {
     }
   }
 
+  Future<Box?> getHiveBox(String boxKey) async {
+    try {
+      if (Hive.isBoxOpen(boxKey)) {
+        return Hive.box(boxKey);
+      } else {
+        return Future.value(Hive.openBox(boxKey));
+      }
+    } catch (e) {
+      if (isEnableSentry) {
+        Sentry.captureMessage(e.toString(), level: SentryLevel.error);
+      }
+    }
+    return null;
+  }
+
+  Future<LazyBox?> getHiveLazyBox(String boxKey) async {
+    try {
+      if (Hive.isBoxOpen(boxKey)) {
+        return Hive.lazyBox(boxKey);
+      } else {
+        return Future.value(Hive.openLazyBox(boxKey));
+      }
+    } catch (e) {
+      if (isEnableSentry) {
+        Sentry.captureMessage(e.toString(), level: SentryLevel.error);
+      }
+    }
+    return null;
+  }
+
   @override
   void notifyListeners() {
     if (!disposed) {
