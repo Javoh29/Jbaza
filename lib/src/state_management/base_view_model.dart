@@ -272,7 +272,7 @@ abstract class BaseViewModel extends ChangeNotifier {
     }
   }
 
-  Future<Box?> getHiveBox<T>(String boxKey) async {
+  Future<Box<T>?> getHiveBox<T>(String boxKey) async {
     try {
       if (Hive.isBoxOpen(boxKey)) {
         return Hive.box<T>(boxKey);
@@ -287,7 +287,7 @@ abstract class BaseViewModel extends ChangeNotifier {
     return null;
   }
 
-  Future<LazyBox?> getHiveLazyBox<T>(String boxKey) async {
+  Future<LazyBox<T>?> getHiveLazyBox<T>(String boxKey) async {
     try {
       if (Hive.isBoxOpen(boxKey)) {
         return Hive.lazyBox<T>(boxKey);
