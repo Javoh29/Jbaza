@@ -155,8 +155,7 @@ abstract class BaseViewModel extends ChangeNotifier {
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
-    T? value = await box.get(key ?? boxKey);
-    return Future<T?>.value(value);
+    return Future<T?>.value(box.get(key ?? boxKey));
   }
 
   Future<List<T>?> getBoxAllValue<T>(String boxKey,
