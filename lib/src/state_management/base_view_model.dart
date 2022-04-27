@@ -91,7 +91,7 @@ abstract class BaseViewModel extends ChangeNotifier {
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
-    box.put(key ?? boxKey, data);
+    await box.put(key ?? boxKey, data);
   }
 
   Future<void> saveLazyBox<T>(String boxKey, T data,
@@ -104,7 +104,7 @@ abstract class BaseViewModel extends ChangeNotifier {
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
-    box.put(key ?? boxKey, data);
+    await box.put(key ?? boxKey, data);
   }
 
   Future<void> addBox<T>(String boxKey, T data, {List<int>? encrypKey}) async {
@@ -116,7 +116,7 @@ abstract class BaseViewModel extends ChangeNotifier {
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
-    box.add(data);
+    await box.add(data);
   }
 
   Future<void> addLazyBox<T>(String boxKey, T data,
@@ -129,7 +129,7 @@ abstract class BaseViewModel extends ChangeNotifier {
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
-    box.add(data);
+    await box.add(data);
   }
 
   Future<T?> getBox<T>(String boxKey,
@@ -198,7 +198,7 @@ abstract class BaseViewModel extends ChangeNotifier {
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
-    box.clear();
+    await box.clear();
   }
 
   Future<void> deleteLazyBox<T>(String boxKey, {List<int>? encrypKey}) async {
@@ -210,7 +210,7 @@ abstract class BaseViewModel extends ChangeNotifier {
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
-    box.clear();
+    await box.clear();
   }
 
   Future<void> deleteBoxKey<T>(boxKey, key, {List<int>? encrypKey}) async {
@@ -222,7 +222,7 @@ abstract class BaseViewModel extends ChangeNotifier {
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
-    box.delete(key);
+    await box.delete(key);
   }
 
   Future<void> deleteLazyBoxKey<T>(boxKey, key, {List<int>? encrypKey}) async {
@@ -234,7 +234,7 @@ abstract class BaseViewModel extends ChangeNotifier {
           encryptionCipher:
               encrypKey != null ? HiveAesCipher(encrypKey) : null);
     }
-    box.delete(key);
+    await box.delete(key);
   }
 
   Future<void> closeBox<T>(String boxKey, {List<int>? encrypKey}) async {
