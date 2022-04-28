@@ -10,6 +10,8 @@ class ErrorsPage extends ViewModelBuilderWidget<ErrorsViewModel> {
 
   final TextEditingController _textEditingController = TextEditingController();
 
+  bool _isShowErrDialog = false;
+
   @override
   void onViewModelReady(ErrorsViewModel viewModel) {
     super.onViewModelReady(viewModel);
@@ -20,7 +22,8 @@ class ErrorsPage extends ViewModelBuilderWidget<ErrorsViewModel> {
   @override
   Widget builder(
       BuildContext context, ErrorsViewModel viewModel, Widget? child) {
-    if (viewModel.isError()) {
+    if (viewModel.isError() && !_isShowErrDialog) {
+      _isShowErrDialog = true;
       Future.delayed(Duration.zero,
           () => showErrorDialog(context, viewModel.getVMError()!));
     }
