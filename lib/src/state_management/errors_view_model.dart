@@ -16,8 +16,11 @@ class ErrorsViewModel extends BaseViewModel {
   Future<void> getAllErrors() async {
     setBusy(true);
     try {
-      _errorsList = await getBoxAllValue<VMException>(errorLogKey) ?? [];
-      _errorsList = _errorsList.reversed.toList();
+      var box = await getHiveBox<VMException>(errorLogKey);
+      if (box != null) {
+        _errorsList = box.values.toList();
+        _errorsList = _errorsList.reversed.toList();
+      }
       setSuccess();
     } catch (e) {
       setError(VMException(e.toString(), callFuncName: 'getAllErrors'));
