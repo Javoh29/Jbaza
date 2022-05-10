@@ -99,7 +99,7 @@ class ErrorsPage extends ViewModelBuilderWidget<ErrorsViewModel> {
                       PopupMenuItem(
                         value: 3,
                         child: const Text("Изменить адреса"),
-                        onTap: () => Navigator.push(context,
+                        onTap: () => Navigator.push(mContext,
                             MaterialPageRoute(builder: (_) => UrlChangePage())),
                       )
                     ])
