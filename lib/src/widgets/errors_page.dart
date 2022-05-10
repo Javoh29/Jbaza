@@ -21,106 +21,113 @@ class ErrorsPage extends ViewModelBuilderWidget<ErrorsViewModel> {
   }
 
   @override
-  Widget builder(BuildContext mCtx, ErrorsViewModel viewModel, Widget? child) {
+  Widget builder(
+      BuildContext context, ErrorsViewModel viewModel, Widget? child) {
     if (viewModel.isError() && !_isShowErrDialog) {
       _isShowErrDialog = true;
-      Future.delayed(
-          Duration.zero, () => showErrorDialog(mCtx, viewModel.getVMError()!));
+      Future.delayed(Duration.zero,
+          () => showErrorDialog(context, viewModel.getVMError()!));
     }
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: Theme.of(mCtx).copyWith(dividerColor: Colors.transparent),
-      home: Scaffold(
-        backgroundColor: Colors.grey[800],
-        appBar: AppBar(
-          backgroundColor: Colors.grey[900],
-          title: TextField(
-            controller: _textEditingController,
-            decoration: const InputDecoration(
-              border: InputBorder.none,
-              hintText: 'Поиск...',
-              hintStyle: TextStyle(
-                  color: Colors.white54,
+      theme: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+      builder: (mCtx, child) {
+        return Scaffold(
+          backgroundColor: Colors.grey[800],
+          appBar: AppBar(
+            backgroundColor: Colors.grey[900],
+            title: TextField(
+              controller: _textEditingController,
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                hintText: 'Поиск...',
+                hintStyle: TextStyle(
+                    color: Colors.white54,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600),
+              ),
+              onChanged: (text) {
+                if (text.isEmpty) {
+                  viewModel.isFilter = false;
+                  viewModel.notifyListeners();
+                }
+              },
+              onSubmitted: (text) {
+                if (text.isNotEmpty) {
+                  viewModel.searchError(text.toLowerCase());
+                }
+              },
+              style: const TextStyle(
                   fontSize: 16,
+                  color: Colors.white,
                   fontWeight: FontWeight.w600),
             ),
-            onChanged: (text) {
-              if (text.isEmpty) {
-                viewModel.isFilter = false;
-                viewModel.notifyListeners();
-              }
-            },
-            onSubmitted: (text) {
-              if (text.isNotEmpty) {
-                viewModel.searchError(text.toLowerCase());
-              }
-            },
-            style: const TextStyle(
-                fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600),
-          ),
-          leading: IconButton(
-            onPressed: () => Navigator.pop(mCtx),
-            icon: const Icon(
-              Icons.arrow_back_ios_sharp,
-              size: 22,
-              color: Colors.white,
-            ),
-          ),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  if (_textEditingController.text.isNotEmpty) {
-                    viewModel
-                        .searchError(_textEditingController.text.toLowerCase());
-                  }
-                },
-                icon: const Icon(
-                  Icons.search,
-                  color: Colors.white,
-                  size: 22,
-                )),
-            PopupMenuButton(
-                itemBuilder: (context) => [
-                      PopupMenuItem(
-                        value: 1,
-                        child: const Text("Поделится"),
-                        onTap: () {
-                          if (viewModel.selectedList.isNotEmpty) {
-                            viewModel.shareError(viewModel.selectedList);
-                          }
-                        },
-                      ),
-                      PopupMenuItem(
-                        value: 2,
-                        child: const Text("Удалить все"),
-                        onTap: () => viewModel.deleteAllError(),
-                      ),
-                      PopupMenuItem(
-                        value: 3,
-                        child: const Text("Изменить адреса"),
-                        onTap: () => Navigator.push(mCtx,
-                            MaterialPageRoute(builder: (_) => UrlChangePage())),
-                      )
-                    ])
-          ],
-        ),
-        body: Stack(children: [
-          ListView.separated(
-              itemBuilder: (context, index) =>
-                  _item(viewModel, viewModel.errorsList[index]),
-              separatorBuilder: (context, index) => Divider(
-                    color: Colors.grey[600],
-                    height: 1,
-                  ),
-              itemCount: viewModel.errorsList.length),
-          if (viewModel.isBusy())
-            const Center(
-              child: CircularProgressIndicator(
+            leading: IconButton(
+              onPressed: () => Navigator.pop(mCtx),
+              icon: const Icon(
+                Icons.arrow_back_ios_sharp,
+                size: 22,
                 color: Colors.white,
               ),
-            )
-        ]),
-      ),
+            ),
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    if (_textEditingController.text.isNotEmpty) {
+                      viewModel.searchError(
+                          _textEditingController.text.toLowerCase());
+                    }
+                  },
+                  icon: const Icon(
+                    Icons.search,
+                    color: Colors.white,
+                    size: 22,
+                  )),
+              PopupMenuButton(
+                  itemBuilder: (context) => [
+                        PopupMenuItem(
+                          value: 1,
+                          child: const Text("Поделится"),
+                          onTap: () {
+                            if (viewModel.selectedList.isNotEmpty) {
+                              viewModel.shareError(viewModel.selectedList);
+                            }
+                          },
+                        ),
+                        PopupMenuItem(
+                          value: 2,
+                          child: const Text("Удалить все"),
+                          onTap: () => viewModel.deleteAllError(),
+                        ),
+                        PopupMenuItem(
+                          value: 3,
+                          child: const Text("Изменить адреса"),
+                          onTap: () => Navigator.push(
+                              mCtx,
+                              MaterialPageRoute(
+                                  builder: (_) => UrlChangePage())),
+                        )
+                      ])
+            ],
+          ),
+          body: Stack(children: [
+            ListView.separated(
+                itemBuilder: (context, index) =>
+                    _item(viewModel, viewModel.errorsList[index]),
+                separatorBuilder: (context, index) => Divider(
+                      color: Colors.grey[600],
+                      height: 1,
+                    ),
+                itemCount: viewModel.errorsList.length),
+            if (viewModel.isBusy())
+              const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+              )
+          ]),
+        );
+      },
     );
   }
 
