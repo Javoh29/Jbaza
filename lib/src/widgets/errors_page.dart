@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jbaza/jbaza.dart';
+import 'package:jbaza/src/widgets/url_change_page.dart';
 
 import '../state_management/errors_view_model.dart';
 import 'error_dialog.dart';
@@ -94,6 +95,12 @@ class ErrorsPage extends ViewModelBuilderWidget<ErrorsViewModel> {
                         value: 2,
                         child: const Text("Удалить все"),
                         onTap: () => viewModel.deleteAllError(),
+                      ),
+                      PopupMenuItem(
+                        value: 3,
+                        child: const Text("Изменить адреса"),
+                        onTap: () => Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => UrlChangePage())),
                       )
                     ])
           ],
