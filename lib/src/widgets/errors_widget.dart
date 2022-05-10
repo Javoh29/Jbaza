@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:jbaza/src/widgets/error_page.dart';
-import 'package:jbaza/src/widgets/url_change_page.dart';
 
 class ErrorsWidget extends StatelessWidget {
   const ErrorsWidget({Key? key}) : super(key: key);
@@ -25,11 +24,6 @@ class ErrorsWidget extends StatelessWidget {
             return MaterialPageRoute(
               settings: settings,
               builder: (_) => ErrorInfoPage(args!['vme_model']),
-            );
-          case 'url_change':
-            return MaterialPageRoute(
-              settings: settings,
-              builder: (_) => UrlChangePage(),
             );
           default:
             return MaterialPageRoute(

@@ -80,11 +80,12 @@ class ErrorPage extends ViewModelBuilderWidget<ErrorsViewModel> {
   }
 
   @override
-  Widget builder(BuildContext ctx, ErrorsViewModel viewModel, Widget? child) {
+  Widget builder(
+      BuildContext context, ErrorsViewModel viewModel, Widget? child) {
     if (viewModel.isError() && !_isShowErrDialog) {
       _isShowErrDialog = true;
-      Future.delayed(
-          Duration.zero, () => showErrorDialog(ctx, viewModel.getVMError()!));
+      Future.delayed(Duration.zero,
+          () => showErrorDialog(context, viewModel.getVMError()!));
     }
     return Scaffold(
       backgroundColor: Colors.grey[800],
@@ -115,7 +116,7 @@ class ErrorPage extends ViewModelBuilderWidget<ErrorsViewModel> {
               fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600),
         ),
         leading: IconButton(
-          onPressed: () => Navigator.pop(ctx),
+          onPressed: () => Navigator.pop(context),
           icon: const Icon(
             Icons.arrow_back_ios_sharp,
             size: 22,
@@ -151,11 +152,6 @@ class ErrorPage extends ViewModelBuilderWidget<ErrorsViewModel> {
                       child: const Text("Удалить все"),
                       onTap: () => viewModel.deleteAllError(),
                     ),
-                    PopupMenuItem(
-                      value: 3,
-                      child: const Text("Изменить адреса"),
-                      onTap: () => Navigator.pushNamed(ctx, 'url_change'),
-                    )
                   ])
         ],
       ),
