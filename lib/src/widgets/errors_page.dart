@@ -21,16 +21,15 @@ class ErrorsPage extends ViewModelBuilderWidget<ErrorsViewModel> {
   }
 
   @override
-  Widget builder(
-      BuildContext context, ErrorsViewModel viewModel, Widget? child) {
+  Widget builder(BuildContext mCtx, ErrorsViewModel viewModel, Widget? child) {
     if (viewModel.isError() && !_isShowErrDialog) {
       _isShowErrDialog = true;
-      Future.delayed(Duration.zero,
-          () => showErrorDialog(context, viewModel.getVMError()!));
+      Future.delayed(
+          Duration.zero, () => showErrorDialog(mCtx, viewModel.getVMError()!));
     }
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+      theme: Theme.of(mCtx).copyWith(dividerColor: Colors.transparent),
       home: Scaffold(
         backgroundColor: Colors.grey[800],
         appBar: AppBar(
@@ -60,7 +59,7 @@ class ErrorsPage extends ViewModelBuilderWidget<ErrorsViewModel> {
                 fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600),
           ),
           leading: IconButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pop(mCtx),
             icon: const Icon(
               Icons.arrow_back_ios_sharp,
               size: 22,
@@ -99,7 +98,7 @@ class ErrorsPage extends ViewModelBuilderWidget<ErrorsViewModel> {
                       PopupMenuItem(
                         value: 3,
                         child: const Text("Изменить адреса"),
-                        onTap: () => Navigator.push(mContext,
+                        onTap: () => Navigator.push(mCtx,
                             MaterialPageRoute(builder: (_) => UrlChangePage())),
                       )
                     ])
