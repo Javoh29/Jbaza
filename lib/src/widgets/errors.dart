@@ -3,8 +3,8 @@ import 'package:jbaza/jbaza.dart';
 import 'package:jbaza/src/widgets/error_page.dart';
 import 'package:jbaza/src/widgets/url_change_page.dart';
 
-class Errors extends StatelessWidget {
-  const Errors({Key? key}) : super(key: key);
+class ErrorsWidget extends StatelessWidget {
+  const ErrorsWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
