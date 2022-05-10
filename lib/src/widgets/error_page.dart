@@ -87,90 +87,94 @@ class ErrorPage extends ViewModelBuilderWidget<ErrorsViewModel> {
       Future.delayed(Duration.zero,
           () => showErrorDialog(context, viewModel.getVMError()!));
     }
-    return Scaffold(
-      backgroundColor: Colors.grey[800],
-      appBar: AppBar(
-        backgroundColor: Colors.grey[900],
-        title: TextField(
-          controller: _textEditingController,
-          decoration: const InputDecoration(
-            border: InputBorder.none,
-            hintText: 'Поиск...',
-            hintStyle: TextStyle(
-                color: Colors.white54,
-                fontSize: 16,
-                fontWeight: FontWeight.w600),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+      home: Scaffold(
+        backgroundColor: Colors.grey[800],
+        appBar: AppBar(
+          backgroundColor: Colors.grey[900],
+          title: TextField(
+            controller: _textEditingController,
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+              hintText: 'Поиск...',
+              hintStyle: TextStyle(
+                  color: Colors.white54,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600),
+            ),
+            onChanged: (text) {
+              if (text.isEmpty) {
+                viewModel.isFilter = false;
+                viewModel.notifyListeners();
+              }
+            },
+            onSubmitted: (text) {
+              if (text.isNotEmpty) {
+                viewModel.searchError(text.toLowerCase());
+              }
+            },
+            style: const TextStyle(
+                fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600),
           ),
-          onChanged: (text) {
-            if (text.isEmpty) {
-              viewModel.isFilter = false;
-              viewModel.notifyListeners();
-            }
-          },
-          onSubmitted: (text) {
-            if (text.isNotEmpty) {
-              viewModel.searchError(text.toLowerCase());
-            }
-          },
-          style: const TextStyle(
-              fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600),
-        ),
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(
-            Icons.arrow_back_ios_sharp,
-            size: 22,
-            color: Colors.white,
-          ),
-        ),
-        actions: [
-          IconButton(
-              onPressed: () {
-                if (_textEditingController.text.isNotEmpty) {
-                  viewModel
-                      .searchError(_textEditingController.text.toLowerCase());
-                }
-              },
-              icon: const Icon(
-                Icons.search,
-                color: Colors.white,
-                size: 22,
-              )),
-          PopupMenuButton(
-              itemBuilder: (context) => [
-                    PopupMenuItem(
-                      value: 1,
-                      child: const Text("Поделится"),
-                      onTap: () {
-                        if (viewModel.selectedList.isNotEmpty) {
-                          viewModel.shareError(viewModel.selectedList);
-                        }
-                      },
-                    ),
-                    PopupMenuItem(
-                      value: 2,
-                      child: const Text("Удалить все"),
-                      onTap: () => viewModel.deleteAllError(),
-                    ),
-                  ])
-        ],
-      ),
-      body: Stack(children: [
-        ListView.separated(
-            itemBuilder: (context, index) =>
-                _item(viewModel, viewModel.errorsList[index]),
-            separatorBuilder: (context, index) => Divider(
-                  color: Colors.grey[600],
-                  height: 1,
-                ),
-            itemCount: viewModel.errorsList.length),
-        if (viewModel.isBusy())
-          const Center(
-            child: CircularProgressIndicator(
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(
+              Icons.arrow_back_ios_sharp,
+              size: 22,
               color: Colors.white,
             ),
-          )
-      ]),
+          ),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  if (_textEditingController.text.isNotEmpty) {
+                    viewModel
+                        .searchError(_textEditingController.text.toLowerCase());
+                  }
+                },
+                icon: const Icon(
+                  Icons.search,
+                  color: Colors.white,
+                  size: 22,
+                )),
+            PopupMenuButton(
+                itemBuilder: (context) => [
+                      PopupMenuItem(
+                        value: 1,
+                        child: const Text("Поделится"),
+                        onTap: () {
+                          if (viewModel.selectedList.isNotEmpty) {
+                            viewModel.shareError(viewModel.selectedList);
+                          }
+                        },
+                      ),
+                      PopupMenuItem(
+                        value: 2,
+                        child: const Text("Удалить все"),
+                        onTap: () => viewModel.deleteAllError(),
+                      ),
+                    ])
+          ],
+        ),
+        body: Stack(children: [
+          ListView.separated(
+              itemBuilder: (context, index) =>
+                  _item(viewModel, viewModel.errorsList[index]),
+              separatorBuilder: (context, index) => Divider(
+                    color: Colors.grey[600],
+                    height: 1,
+                  ),
+              itemCount: viewModel.errorsList.length),
+          if (viewModel.isBusy())
+            const Center(
+              child: CircularProgressIndicator(
+                color: Colors.white,
+              ),
+            )
+        ]),
+      ),
     );
   }
 
