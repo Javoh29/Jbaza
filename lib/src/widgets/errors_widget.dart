@@ -12,7 +12,9 @@ class ErrorsWidget extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       onGenerateRoute: (RouteSettings settings) {
-        final args = settings.arguments as Map<String, dynamic>;
+        Map<String, dynamic>? args =
+            settings.arguments as Map<String, dynamic>?;
+        args ?? <String, dynamic>{};
         switch (settings.name) {
           case '/':
             return MaterialPageRoute(
@@ -22,7 +24,7 @@ class ErrorsWidget extends StatelessWidget {
           case 'error_info':
             return MaterialPageRoute(
               settings: settings,
-              builder: (_) => ErrorInfoPage(args['vme_model']),
+              builder: (_) => ErrorInfoPage(args!['vme_model']),
             );
           case 'url_change':
             return MaterialPageRoute(
