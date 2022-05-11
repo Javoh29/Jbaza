@@ -158,8 +158,10 @@ class ErrorPage extends ViewModelBuilderWidget<ErrorsViewModel> {
                       PopupMenuItem(
                         value: 3,
                         child: SwitchListTile(
-                            value: true,
-                            onChanged: (value) {},
+                            value: viewModel.isDevMode ?? false,
+                            dense: true,
+                            contentPadding: EdgeInsets.zero,
+                            onChanged: (value) => viewModel.setDevMode(value),
                             title: const Text("Dev mode")),
                         onTap: () {},
                       ),

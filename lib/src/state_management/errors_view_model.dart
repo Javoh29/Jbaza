@@ -13,6 +13,8 @@ class ErrorsViewModel extends BaseViewModel {
 
   bool isFilter = false;
 
+  bool? isDevMode = false;
+
   Future<void> getAllErrors() async {
     setBusy(true);
     try {
@@ -21,9 +23,19 @@ class ErrorsViewModel extends BaseViewModel {
         _errorsList = box.values.toList();
         _errorsList = _errorsList.reversed.toList();
       }
+      isDevMode = await getBox(devOptionsBox, key: enableDevOptionsKey);
       setSuccess();
     } catch (e) {
       setError(VMException(e.toString(), callFuncName: 'getAllErrors'));
+    }
+  }
+
+  Future setDevMode(bool value) async {
+    try {
+      await saveBox(devOptionsBox, value, key: enableDevOptionsKey);
+      notifyListeners();
+    } catch (e) {
+      setError(VMException(e.toString(), callFuncName: 'setDevMode'));
     }
   }
 
