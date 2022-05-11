@@ -155,6 +155,14 @@ class ErrorPage extends ViewModelBuilderWidget<ErrorsViewModel> {
                         child: const Text("Удалить все"),
                         onTap: () => viewModel.deleteAllError(),
                       ),
+                      PopupMenuItem(
+                        value: 3,
+                        child: SwitchListTile(
+                            value: true,
+                            onChanged: (value) {},
+                            title: const Text("Dev mode")),
+                        onTap: () {},
+                      ),
                     ])
           ],
         ),

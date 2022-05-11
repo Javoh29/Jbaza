@@ -9,6 +9,8 @@ import 'package:share/share.dart';
 String mAppVersion = '0.0.1';
 String deviceInfo = 'Unknown device, AppVersion: $mAppVersion';
 bool isEnableSentry = false;
+const String devOptionsBox = 'dev_options_box';
+const String enableDevOptionsKey = 'enable_dev_options_key';
 
 Future<void> setupConfigs(FutureOr<void> Function() app, String sentryKey,
     {double traces = 0.5,
