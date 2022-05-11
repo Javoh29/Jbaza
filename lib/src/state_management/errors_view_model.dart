@@ -34,7 +34,6 @@ class ErrorsViewModel extends BaseViewModel {
     try {
       await saveBox(devOptionsBox, value, key: enableDevOptionsKey);
       isDevMode = value;
-      notifyListeners();
     } catch (e) {
       setError(VMException(e.toString(), callFuncName: 'setDevMode'));
     }
