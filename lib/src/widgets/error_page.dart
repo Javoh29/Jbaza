@@ -162,7 +162,10 @@ class ErrorPage extends ViewModelBuilderWidget<ErrorsViewModel> {
                             dense: true,
                             contentPadding: EdgeInsets.zero,
                             onChanged: (value) => viewModel.setDevMode(value),
-                            title: const Text("Dev mode")),
+                            title: const Text(
+                              "Dev mode",
+                              style: TextStyle(fontSize: 14),
+                            )),
                         onTap: () {},
                       ),
                     ])

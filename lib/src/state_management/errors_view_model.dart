@@ -33,6 +33,7 @@ class ErrorsViewModel extends BaseViewModel {
   Future setDevMode(bool value) async {
     try {
       await saveBox(devOptionsBox, value, key: enableDevOptionsKey);
+      isDevMode = value;
       notifyListeners();
     } catch (e) {
       setError(VMException(e.toString(), callFuncName: 'setDevMode'));
