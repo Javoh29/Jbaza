@@ -23,7 +23,9 @@ class ErrorsViewModel extends BaseViewModel {
         _errorsList = box.values.toList();
         _errorsList = _errorsList.reversed.toList();
       }
-      isDevMode = await getBox(devOptionsBox, key: enableDevOptionsKey);
+      isDevMode =
+          await getBox<String>(devOptionsBox, key: enableDevOptionsKey) ==
+              'true';
       setSuccess();
     } catch (e) {
       setError(VMException(e.toString(), callFuncName: 'getAllErrors'));
@@ -32,8 +34,10 @@ class ErrorsViewModel extends BaseViewModel {
 
   Future setDevMode(bool value) async {
     try {
-      await saveBox(devOptionsBox, value, key: enableDevOptionsKey);
+      await saveBox<String>(devOptionsBox, value.toString(),
+          key: enableDevOptionsKey);
       isDevMode = value;
+      notifyListeners();
     } catch (e) {
       setError(VMException(e.toString(), callFuncName: 'setDevMode'));
     }
