@@ -43,7 +43,8 @@ abstract class BaseViewModel extends ChangeNotifier {
     if (change) notifyListeners();
   }
 
-  void setError(VMException value, {String? tag, bool change = true}) {
+  void setError(VMException value,
+      {String? tag, bool change = true, bool save = true}) {
     value.tag = tag ?? modelTag;
     var curTime = DateTime.now();
     value.time =
@@ -52,7 +53,7 @@ abstract class BaseViewModel extends ChangeNotifier {
     _busyStates.remove(value.tag);
     _successStates.remove(value.tag);
     if (change) notifyListeners();
-    _sendToSave(value);
+    if (save) _sendToSave(value);
   }
 
   void setSuccess({dynamic value, String? tag, bool change = true}) {
