@@ -1,5 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:jbaza/src/utils/hive_util.dart';
+import 'package:jbaza/src/widgets/info_dialog.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../utils/initial_util.dart';
@@ -48,8 +49,7 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
       {String? tag, bool change = true, bool save = true}) {
     value.tag = tag ?? modelTag;
     var curTime = DateTime.now();
-    value.time =
-        '${curTime.day}-${curTime.month}-${curTime.year} (${curTime.hour}:${curTime.minute})';
+    value.time = curTime.toIso8601String();
     _errorStates[value.tag] = value;
     _busyStates.remove(value.tag);
     _successStates.remove(value.tag);
@@ -83,6 +83,37 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
 
   void setOnModelReadyCalled(bool value) => _onModelReadyCalled = value;
 
+  shwoInfo(String text,
+      {TextStyle? kTextStyle,
+      Color? bgColor,
+      int? durTime,
+      SnackBarAction? barAction,
+      String? dTitle,
+      List<Widget>? dActions,
+      bool isShowMoreD = true,
+      bool isCancelBtnD = false,
+      bool isDialog = false}) {
+    if (context != null) {
+      if (isDialog) {
+        showInfoDialog(context!, text,
+            title: dTitle,
+            btns: dActions,
+            isShowMore: isShowMoreD,
+            isCancelBtn: isCancelBtnD);
+      } else {
+        ScaffoldMessenger.of(context!).showSnackBar(SnackBar(
+            duration: Duration(milliseconds: durTime ?? 4000),
+            action: barAction,
+            content: Text(
+              text,
+              style: kTextStyle ??
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+            ),
+            backgroundColor: bgColor ?? Colors.redAccent));
+      }
+    }
+  }
+
   @override
   void notifyListeners() {
     if (!disposed) {
@@ -96,6 +127,7 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
     _busyStates.clear();
     _errorStates.clear();
     _successStates.clear();
+    context = null;
     super.dispose();
   }
 }

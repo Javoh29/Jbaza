@@ -2,9 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jbaza/jbaza.dart';
 
-Future<T?> showErrorDialog<T>(BuildContext context, VMException vm,
+Future<T?> showInfoDialog<T>(BuildContext context, String message,
     {String? title,
     List<Widget>? btns,
     bool isShowMore = true,
@@ -19,7 +18,7 @@ Future<T?> showErrorDialog<T>(BuildContext context, VMException vm,
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Flexible(
-                            child: Text(vm.message,
+                            child: Text(message,
                                 maxLines: 5, overflow: TextOverflow.ellipsis)),
                         CupertinoButton(
                             onPressed: () {},
@@ -30,7 +29,7 @@ Future<T?> showErrorDialog<T>(BuildContext context, VMException vm,
                             ))
                       ],
                     )
-                  : Text(vm.message),
+                  : Text(message),
               actions: btns ??
                   [CupertinoButton(child: const Text('OK'), onPressed: () {})],
             ));
@@ -45,7 +44,7 @@ Future<T?> showErrorDialog<T>(BuildContext context, VMException vm,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Flexible(
-                            child: Text(vm.message,
+                            child: Text(message,
                                 maxLines: 5, overflow: TextOverflow.ellipsis)),
                         TextButton(
                             onPressed: () {},
@@ -56,7 +55,7 @@ Future<T?> showErrorDialog<T>(BuildContext context, VMException vm,
                             ))
                       ],
                     )
-                  : Text(vm.message),
+                  : Text(message),
               actions: btns ??
                   [TextButton(onPressed: () {}, child: const Text('OK'))],
             ));

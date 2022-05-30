@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:jbaza/src/state_management/errors_view_model.dart';
 
-import 'error_dialog.dart';
+import 'info_dialog.dart';
 
 class ErrorPage extends ViewModelBuilderWidget<ErrorsViewModel> {
   ErrorPage({Key? key}) : super(key: key);
@@ -85,7 +85,7 @@ class ErrorPage extends ViewModelBuilderWidget<ErrorsViewModel> {
     if (viewModel.isError() && !_isShowErrDialog) {
       _isShowErrDialog = true;
       Future.delayed(Duration.zero,
-          () => showErrorDialog(context, viewModel.getVMError()!));
+          () => showInfoDialog(context, viewModel.getVMError()!.message));
     }
     return MaterialApp(
       debugShowCheckedModeBanner: false,
