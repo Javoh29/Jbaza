@@ -12,14 +12,15 @@ bool isEnableSentry = false;
 const String devOptionsBox = 'dev_options_box';
 const String enableDevOptionsKey = 'enable_dev_options_key';
 
-Future<void> setupConfigs(FutureOr<void> Function() app, String sentryKey,
-    {double traces = 0.5,
+Future<void> setupConfigs(FutureOr<void> Function() app,
+    {String? sentryKey,
+    double traces = 0.5,
     String? appVersion,
     bool enableSentry = false}) async {
   if (appVersion != null) mAppVersion = appVersion;
   isEnableSentry = enableSentry;
   await _initHive();
-  if (enableSentry) {
+  if (sentryKey != null && enableSentry) {
     await SentryFlutter.init(
       (options) {
         options.dsn = sentryKey;
