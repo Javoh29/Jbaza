@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'base_view_model.dart';
-import 'dynamic_source_view_model.dart';
 
 enum _ViewModelBuilderType { NonReactive, Reactive }
 
@@ -171,12 +170,6 @@ class _ViewModelBuilderState<T extends BaseViewModel>
 
   Widget builderWithDynamicSourceInitialise(
       BuildContext context, T? viewModel, Widget? child) {
-    if (viewModel is DynamicSourceViewModel) {
-      if (viewModel.changeSource) {
-        _initialiseSpecialViewModels();
-      }
-    }
-
     return widget.builder(context, viewModel!, child);
   }
 }
