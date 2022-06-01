@@ -46,7 +46,10 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
   }
 
   void setError(VMException value,
-      {String? tag, bool change = true, bool save = true}) {
+      {String? tag,
+      bool change = true,
+      bool save = true,
+      bool isShowInfo = false}) {
     value.tag = tag ?? modelTag;
     var curTime = DateTime.now();
     value.time = curTime.toIso8601String();
@@ -55,6 +58,7 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
     _successStates.remove(value.tag);
     if (change) notifyListeners();
     if (save) _sendToSave(value);
+    if (isShowInfo) showInfo(value.message);
   }
 
   void setSuccess({dynamic value, String? tag, bool change = true}) {
@@ -83,7 +87,7 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
 
   void setOnModelReadyCalled(bool value) => _onModelReadyCalled = value;
 
-  shwoInfo(String text,
+  showInfo(String text,
       {TextStyle? kTextStyle,
       Color? bgColor,
       int? durTime,
