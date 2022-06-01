@@ -118,6 +118,26 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
     }
   }
 
+  Future<T?> navigateTo<T extends Object?>(String route,
+      {bool isRemoveStack = false, Object? arg}) {
+    if (context != null) {
+      if (isRemoveStack) {
+        return Future.value(Navigator.pushNamedAndRemoveUntil(
+            context!, route, (route) => false,
+            arguments: arg));
+      } else {
+        return Future.value(Navigator.pushNamed(context!, route));
+      }
+    }
+    return Future.value(null);
+  }
+
+  pop<T>([T? result]) {
+    if (context != null) {
+      Navigator.pop(context!, T);
+    }
+  }
+
   @override
   void notifyListeners() {
     if (!disposed) {
