@@ -8,7 +8,7 @@ import '../utils/view_model_exception.dart';
 
 /// Contains ViewModel functionality for busy state management
 abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
-  BaseViewModel({String? tag, this.context}) {
+  BaseViewModel({String? tag, required this.context}) {
     _modelTag = tag ?? 'BaseViewModel';
   }
 

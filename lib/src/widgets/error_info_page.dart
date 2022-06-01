@@ -108,6 +108,6 @@ class ErrorInfoPage extends ViewModelBuilderWidget<ErrorsViewModel> {
 
   @override
   ErrorsViewModel viewModelBuilder(BuildContext context) {
-    return ErrorsViewModel();
+    return ErrorsViewModel(context: context);
   }
 }

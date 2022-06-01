@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:jbaza/jbaza.dart';
 
 class ErrorsViewModel extends BaseViewModel {
   List<VMException> _errorsList = [];
   final List<VMException> _filterErrorsList = [];
+
+  ErrorsViewModel({required BuildContext? context}) : super(context: context);
   List<VMException> get errorsList =>
       isFilter ? _filterErrorsList : _errorsList;
 
