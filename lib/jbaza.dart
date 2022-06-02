@@ -12,6 +12,7 @@ export 'src/utils/initial_util.dart';
 export 'src/utils/jbaza_locator.dart';
 export 'src/utils/jbaza_locator_annotations.dart';
 export 'src/utils/view_model_exception.dart';
+export 'src/utils/jbaza_client.dart';
 
 export 'src/widgets/error_page.dart';
 export 'src/widgets/error_info_page.dart';
