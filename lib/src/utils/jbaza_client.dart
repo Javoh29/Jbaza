@@ -6,6 +6,8 @@ import 'package:http/http.dart';
 abstract class JClient implements Client {
   Future updateToken();
 
+  int get unauthorized;
+
   Map<String, String>? getConstHeaders();
 
   @override
@@ -98,7 +100,7 @@ abstract class JClient implements Client {
     }
 
     var response = await Response.fromStream(await send(request));
-    if (response.statusCode == 401) {
+    if (response.statusCode == unauthorized) {
       await updateToken();
       response = await Response.fromStream(await send(request));
     }
