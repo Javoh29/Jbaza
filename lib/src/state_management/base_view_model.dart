@@ -49,7 +49,7 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
       {String? tag,
       bool change = true,
       bool save = true,
-      bool isShowInfo = false}) {
+      bool isShowInfo = true}) {
     value.tag = tag ?? modelTag;
     var curTime = DateTime.now();
     value.time = curTime.toIso8601String();
