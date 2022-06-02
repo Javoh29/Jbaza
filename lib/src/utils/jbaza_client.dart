@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:http/http.dart';
@@ -7,7 +6,7 @@ import 'package:http/http.dart';
 abstract class JClient implements Client {
   Future updateToken();
 
-  String? getTokenAccess();
+  Map<String, String>? getConstHeaders();
 
   @override
   Future<StreamedResponse> send(BaseRequest request) {
@@ -83,7 +82,7 @@ abstract class JClient implements Client {
 
     if (headers != null) request.headers.addAll(headers);
     if (isJoinToken) {
-      request.headers[HttpHeaders.authorizationHeader] = getTokenAccess() ?? '';
+      request.headers.addAll(getConstHeaders() ?? {});
     }
     if (encoding != null) request.encoding = encoding;
     if (body != null) {
