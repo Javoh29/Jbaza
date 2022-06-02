@@ -8,7 +8,7 @@ abstract class JClient implements Client {
 
   int get unauthorized;
 
-  Map<String, String>? getConstHeaders();
+  Map<String, String>? getGlobalHeaders();
 
   @override
   Future<StreamedResponse> send(BaseRequest request) {
@@ -84,7 +84,7 @@ abstract class JClient implements Client {
 
     if (headers != null) request.headers.addAll(headers);
     if (isJoinToken) {
-      request.headers.addAll(getConstHeaders() ?? {});
+      request.headers.addAll(getGlobalHeaders() ?? {});
     }
     if (encoding != null) request.encoding = encoding;
     if (body != null) {
