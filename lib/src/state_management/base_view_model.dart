@@ -126,7 +126,8 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
             context!, route, (route) => false,
             arguments: arg));
       } else {
-        return Future.value(Navigator.pushNamed(context!, route));
+        return Future.value(
+            Navigator.pushNamed(context!, route, arguments: arg));
       }
     }
     return Future.value(null);
