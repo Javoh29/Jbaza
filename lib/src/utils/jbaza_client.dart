@@ -99,12 +99,13 @@ abstract class JClient implements Client {
       }
     }
 
-    var response = await Response.fromStream(await send(request));
+    Response? response = await Response.fromStream(await send(request));
     if (response.statusCode == unauthorized) {
       await updateToken();
       if (isJoinToken) {
         request.headers.addAll(getGlobalHeaders() ?? {});
       }
+      response = null;
       response = await Response.fromStream(await send(request));
     }
     return response;
