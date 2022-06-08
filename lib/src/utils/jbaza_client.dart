@@ -79,7 +79,10 @@ abstract class JClient implements Client {
 
   Future<Response> _sendUnstreamed(
       String method, Uri url, Map<String, String>? headers,
-      {body, Encoding? encoding, bool isJoinToken = true}) async {
+      {body,
+      Encoding? encoding,
+      bool isJoinToken = true,
+      bool isCalled = false}) async {
     var request = Request(method, url);
 
     if (headers != null) request.headers.addAll(headers);
@@ -99,14 +102,10 @@ abstract class JClient implements Client {
       }
     }
 
-    Response? response = await Response.fromStream(await send(request));
-    if (response.statusCode == unauthorized) {
+    Response response = await Response.fromStream(await send(request));
+    if (response.statusCode == unauthorized && !isCalled) {
       await updateToken();
-      if (isJoinToken) {
-        request.headers.addAll(getGlobalHeaders() ?? {});
-      }
-      response = null;
-      response = await Response.fromStream(await send(request));
+      response = await _sendUnstreamed(method, url, headers, isCalled: true);
     }
     return response;
   }
