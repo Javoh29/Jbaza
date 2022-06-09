@@ -45,11 +45,7 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
     if (change) notifyListeners();
   }
 
-  void setError(VMException value,
-      {String? tag,
-      bool change = true,
-      bool save = true,
-      bool isShowInfo = true}) {
+  void setError(VMException value, {String? tag, bool change = true, bool save = true, bool isShowInfo = true}) {
     value.tag = tag ?? modelTag;
     var curTime = DateTime.now();
     value.time = curTime.toIso8601String();
@@ -72,10 +68,9 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
 
   Future<void> _sendToSave(VMException value) async {
     value.deviceInfo = deviceInfo;
-    addLazyBox<VMException>(errorLogKey, value);
+    await addLazyBox<VMException>(errorLogKey, value);
     if (isEnableSentry) {
-      Sentry.captureMessage(value.toJson().toString(),
-          level: SentryLevel.error);
+      Sentry.captureMessage(value.toJson().toString(), level: SentryLevel.error);
     }
   }
 
@@ -100,18 +95,14 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
     if (context != null) {
       if (isDialog) {
         showInfoDialog(context!, text,
-            title: dTitle,
-            btns: dActions,
-            isShowMore: isShowMoreD,
-            isCancelBtn: isCancelBtnD);
+            title: dTitle, btns: dActions, isShowMore: isShowMoreD, isCancelBtn: isCancelBtnD);
       } else {
         ScaffoldMessenger.of(context!).showSnackBar(SnackBar(
             duration: Duration(milliseconds: durTime ?? 4000),
             action: barAction,
             content: Text(
               text,
-              style: kTextStyle ??
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+              style: kTextStyle ?? TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
             ),
             backgroundColor: bgColor ?? Colors.redAccent));
       }
@@ -119,22 +110,25 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
   }
 
   Future<T?> navigateTo<T extends Object?>(String route,
-      {bool isRemoveStack = false, Object? arg}) {
+      {bool isRemoveStack = false, Object? arg, int? waitTime}) async {
     if (context != null) {
+      if (waitTime != null) {
+        await Future.delayed(Duration(seconds: waitTime));
+      }
       if (isRemoveStack) {
-        return Future.value(Navigator.pushNamedAndRemoveUntil(
-            context!, route, (route) => false,
-            arguments: arg));
+        return Future.value(Navigator.pushNamedAndRemoveUntil(context!, route, (route) => false, arguments: arg));
       } else {
-        return Future.value(
-            Navigator.pushNamed(context!, route, arguments: arg));
+        return Future.value(Navigator.pushNamed(context!, route, arguments: arg));
       }
     }
     return Future.value(null);
   }
 
-  pop<T>([T? result]) {
+  pop<T>({T? result, int? waitTime}) async {
     if (context != null) {
+      if (waitTime != null) {
+        await Future.delayed(Duration(seconds: waitTime));
+      }
       Navigator.pop(context!, T);
     }
   }
