@@ -110,26 +110,27 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
   }
 
   Future<T?> navigateTo<T extends Object?>(String route,
-      {bool isRemoveStack = false, Object? arg, int? waitTime}) async {
-    if (context != null) {
+      {bool isRemoveStack = false, Object? arg, int? waitTime, BuildContext? ctx}) async {
+    if (ctx != null || context != null) {
       if (waitTime != null) {
         await Future.delayed(Duration(seconds: waitTime));
       }
       if (isRemoveStack) {
-        return Future.value(Navigator.pushNamedAndRemoveUntil(context!, route, (route) => false, arguments: arg));
+        return Future.value(
+            Navigator.pushNamedAndRemoveUntil(ctx ?? context!, route, (route) => false, arguments: arg));
       } else {
-        return Future.value(Navigator.pushNamed(context!, route, arguments: arg));
+        return Future.value(Navigator.pushNamed(ctx ?? context!, route, arguments: arg));
       }
     }
     return Future.value(null);
   }
 
-  pop<T>({T? result, int? waitTime}) async {
-    if (context != null) {
+  pop<T>({T? result, int? waitTime, BuildContext? ctx}) async {
+    if (ctx != null || context != null) {
       if (waitTime != null) {
         await Future.delayed(Duration(seconds: waitTime));
       }
-      Navigator.pop(context!, T);
+      Navigator.pop(ctx ?? context!, T);
     }
   }
 
