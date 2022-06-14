@@ -20,7 +20,7 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
   BuildContext? context;
   late String _modelTag;
   String get modelTag => _modelTag;
-  void setModelTag(String value) => _modelTag = value;
+  set modelTag(String value) => _modelTag = value;
 
   bool _initialised = false;
   bool get initialised => _initialised;
@@ -130,7 +130,7 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
       if (waitTime != null) {
         await Future.delayed(Duration(seconds: waitTime));
       }
-      Navigator.pop(ctx ?? context!, T);
+      Navigator.pop(ctx ?? context!, result);
     }
   }
 
