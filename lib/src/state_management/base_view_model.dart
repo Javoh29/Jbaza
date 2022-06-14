@@ -116,9 +116,9 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
         await Future.delayed(Duration(seconds: waitTime));
       }
       if (isRemoveStack) {
-        return Navigator.pushNamedAndRemoveUntil(ctx ?? context!, route, (route) => false, arguments: arg);
+        return Navigator.pushNamedAndRemoveUntil<T>(ctx ?? context!, route, (route) => false, arguments: arg);
       } else {
-        return Navigator.pushNamed(ctx ?? context!, route, arguments: arg);
+        return Navigator.pushNamed<T>(ctx ?? context!, route, arguments: arg);
       }
     }
     return Future.value(null);
