@@ -11,78 +11,57 @@ abstract class JClient implements Client {
   Map<String, String>? getGlobalHeaders();
 
   @override
-  Future<StreamedResponse> send(BaseRequest request) {
+  Future<StreamedResponse> send(BaseRequest request, {bool isJoinToken = true}) {
+    if (isJoinToken) {
+      request.headers.addAll(getGlobalHeaders() ?? {});
+    }
     return request.send();
   }
 
   @override
-  Future<Response> head(Uri url,
-          {Map<String, String>? headers, bool isJoinToken = true}) =>
+  Future<Response> head(Uri url, {Map<String, String>? headers, bool isJoinToken = true}) =>
       _sendUnstreamed('HEAD', url, headers, isJoinToken: isJoinToken);
 
   @override
-  Future<Response> get(Uri url,
-          {Map<String, String>? headers, bool isJoinToken = true}) =>
+  Future<Response> get(Uri url, {Map<String, String>? headers, bool isJoinToken = true}) =>
       _sendUnstreamed('GET', url, headers, isJoinToken: isJoinToken);
 
   @override
   Future<Response> post(Uri url,
-          {Map<String, String>? headers,
-          Object? body,
-          Encoding? encoding,
-          bool isJoinToken = true}) =>
-      _sendUnstreamed('POST', url, headers,
-          body: body, encoding: encoding, isJoinToken: isJoinToken);
+          {Map<String, String>? headers, Object? body, Encoding? encoding, bool isJoinToken = true}) =>
+      _sendUnstreamed('POST', url, headers, body: body, encoding: encoding, isJoinToken: isJoinToken);
 
   @override
   Future<Response> put(Uri url,
-          {Map<String, String>? headers,
-          Object? body,
-          Encoding? encoding,
-          bool isJoinToken = true}) =>
-      _sendUnstreamed('PUT', url, headers,
-          body: body, encoding: encoding, isJoinToken: isJoinToken);
+          {Map<String, String>? headers, Object? body, Encoding? encoding, bool isJoinToken = true}) =>
+      _sendUnstreamed('PUT', url, headers, body: body, encoding: encoding, isJoinToken: isJoinToken);
 
   @override
   Future<Response> patch(Uri url,
-          {Map<String, String>? headers,
-          Object? body,
-          Encoding? encoding,
-          bool isJoinToken = true}) =>
-      _sendUnstreamed('PATCH', url, headers,
-          body: body, encoding: encoding, isJoinToken: isJoinToken);
+          {Map<String, String>? headers, Object? body, Encoding? encoding, bool isJoinToken = true}) =>
+      _sendUnstreamed('PATCH', url, headers, body: body, encoding: encoding, isJoinToken: isJoinToken);
 
   @override
   Future<Response> delete(Uri url,
-          {Map<String, String>? headers,
-          Object? body,
-          Encoding? encoding,
-          bool isJoinToken = true}) =>
-      _sendUnstreamed('DELETE', url, headers,
-          body: body, encoding: encoding, isJoinToken: isJoinToken);
+          {Map<String, String>? headers, Object? body, Encoding? encoding, bool isJoinToken = true}) =>
+      _sendUnstreamed('DELETE', url, headers, body: body, encoding: encoding, isJoinToken: isJoinToken);
 
   @override
-  Future<String> read(Uri url,
-      {Map<String, String>? headers, bool isJoinToken = true}) async {
+  Future<String> read(Uri url, {Map<String, String>? headers, bool isJoinToken = true}) async {
     final response = await get(url, headers: headers, isJoinToken: isJoinToken);
     _checkResponseSuccess(url, response);
     return response.body;
   }
 
   @override
-  Future<Uint8List> readBytes(Uri url,
-      {Map<String, String>? headers, bool isJoinToken = true}) async {
+  Future<Uint8List> readBytes(Uri url, {Map<String, String>? headers, bool isJoinToken = true}) async {
     final response = await get(url, headers: headers, isJoinToken: isJoinToken);
     _checkResponseSuccess(url, response);
     return response.bodyBytes;
   }
 
-  Future<Response> _sendUnstreamed(
-      String method, Uri url, Map<String, String>? headers,
-      {body,
-      Encoding? encoding,
-      bool isJoinToken = true,
-      bool isCalled = false}) async {
+  Future<Response> _sendUnstreamed(String method, Uri url, Map<String, String>? headers,
+      {body, Encoding? encoding, bool isJoinToken = true, bool isCalled = false}) async {
     var request = Request(method, url);
 
     if (headers != null) request.headers.addAll(headers);
