@@ -47,14 +47,16 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
 
   void setError(VMException value, {String? tag, bool change = true, bool save = true, bool isShowInfo = true}) {
     value.tag = tag ?? modelTag;
-    var curTime = DateTime.now();
-    value.time = curTime.toIso8601String();
-    _errorStates[value.tag] = value;
     _busyStates.remove(value.tag);
     _successStates.remove(value.tag);
-    if (change) notifyListeners();
-    if (save) _sendToSave(value);
+    if (save) {
+      var curTime = DateTime.now();
+      value.time = curTime.toIso8601String();
+      _errorStates[value.tag] = value;
+      _sendToSave(value);
+    }
     if (isShowInfo) showInfo(value.message);
+    if (change) notifyListeners();
   }
 
   void setSuccess({dynamic value, String? tag, bool change = true}) {
