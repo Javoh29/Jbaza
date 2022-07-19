@@ -44,7 +44,7 @@ class ErrorPage extends ViewModelBuilderWidget<ErrorsViewModel> {
             evm.selectedList.add(vme);
             evm.notifyListeners();
           } else {
-            evm.navigateTo('errorInfoPage', arg: {'vme_model': vme});
+            Navigator.push(evm.context!, MaterialPageRoute(builder: (context) => ErrorInfoPage(vme)));
           }
         },
         onLongPress: () {
