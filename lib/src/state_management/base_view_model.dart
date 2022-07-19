@@ -45,7 +45,7 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
     if (change) notifyListeners();
   }
 
-  void setError(VMException value, {String? tag, bool change = true, bool save = true, bool isShowInfo = true}) {
+  void setError(VMException value, {String? tag, bool change = true, bool save = true, bool isCallBack = true}) {
     value.tag = tag ?? modelTag;
     _busyStates.remove(value.tag);
     _successStates.remove(value.tag);
@@ -55,7 +55,7 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
       _errorStates[value.tag] = value;
       _sendToSave(value);
     }
-    if (isShowInfo) showInfo(value.message);
+    if (isCallBack) callBackError(value.message);
     if (change) notifyListeners();
   }
 
@@ -83,6 +83,8 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
   void setInitialised(bool value) => _initialised = value;
 
   void setOnModelReadyCalled(bool value) => _onModelReadyCalled = value;
+
+  callBackError(String text);
 
   showInfo(String text,
       {TextStyle? kTextStyle,

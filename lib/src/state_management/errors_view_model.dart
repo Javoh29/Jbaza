@@ -9,8 +9,7 @@ class ErrorsViewModel extends BaseViewModel {
   final List<VMException> _filterErrorsList = [];
 
   ErrorsViewModel({required BuildContext? context}) : super(context: context);
-  List<VMException> get errorsList =>
-      isFilter ? _filterErrorsList : _errorsList;
+  List<VMException> get errorsList => isFilter ? _filterErrorsList : _errorsList;
 
   List<VMException> selectedList = [];
 
@@ -26,9 +25,7 @@ class ErrorsViewModel extends BaseViewModel {
         _errorsList = box.values.toList();
         _errorsList = _errorsList.reversed.toList();
       }
-      isDevMode =
-          await getBox<String>(devOptionsBox, key: enableDevOptionsKey) ==
-              'true';
+      isDevMode = await getBox<String>(devOptionsBox, key: enableDevOptionsKey) == 'true';
       setSuccess();
     } catch (e) {
       setError(VMException(e.toString(), callFuncName: 'getAllErrors'));
@@ -37,8 +34,7 @@ class ErrorsViewModel extends BaseViewModel {
 
   Future setDevMode(bool value) async {
     try {
-      await saveBox<String>(devOptionsBox, value.toString(),
-          key: enableDevOptionsKey);
+      await saveBox<String>(devOptionsBox, value.toString(), key: enableDevOptionsKey);
       isDevMode = value;
       notifyListeners();
     } catch (e) {
@@ -51,8 +47,7 @@ class ErrorsViewModel extends BaseViewModel {
     try {
       _filterErrorsList.clear();
       for (var e in _errorsList) {
-        if (e.callFuncName != null &&
-            e.callFuncName!.toLowerCase().contains(text)) {
+        if (e.callFuncName != null && e.callFuncName!.toLowerCase().contains(text)) {
           _filterErrorsList.add(e);
         }
       }
@@ -88,5 +83,10 @@ class ErrorsViewModel extends BaseViewModel {
     } catch (e) {
       setError(VMException(e.toString(), callFuncName: 'shareError'));
     }
+  }
+
+  @override
+  callBackError(String text) {
+    showInfo(text);
   }
 }
