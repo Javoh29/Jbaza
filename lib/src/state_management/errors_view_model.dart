@@ -20,9 +20,12 @@ class ErrorsViewModel extends BaseViewModel {
   Future<void> getAllErrors() async {
     setBusy(true);
     try {
-      var box = await getHiveBox<VMException>(errorLogKey);
+      var box = await getHiveLazyBox<VMException>(errorLogKey);
       if (box != null) {
-        _errorsList = box.values.toList();
+        for (int i = 0; i < box.length; i++) {
+          var item = await box.getAt(i);
+          if (item != null) _errorsList.add(item);
+        }
         _errorsList = _errorsList.reversed.toList();
       }
       isDevMode = await getBox<String>(devOptionsBox, key: enableDevOptionsKey) == 'true';
