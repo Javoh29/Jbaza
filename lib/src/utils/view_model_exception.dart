@@ -106,14 +106,16 @@ class VMException extends HiveObject {
           String? deviceInfo,
           Response? response,
           bool? isInet,
-          String? action}) =>
+          String? action,
+          String? tag}) =>
       VMException(message ?? this.message,
           callFuncName: callFuncName ?? this.callFuncName,
           line: line ?? this.line,
           deviceInfo: deviceInfo ?? this.deviceInfo,
           response: response ?? this.response,
           isInet: isInet ?? this.isInet,
-          action: action ?? this.action);
+          action: action ?? this.action,
+          tag: tag ?? this.tag);
 
   @override
   String toString() {
