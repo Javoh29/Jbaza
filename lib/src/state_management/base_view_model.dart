@@ -87,7 +87,7 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
 
   callBackBusy(bool value, String? tag) {}
 
-  callBackError(String text);
+  callBackError(String text) {}
 
   showInfo(String text,
       {TextStyle? kTextStyle,
