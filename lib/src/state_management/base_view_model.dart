@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:jbaza/src/utils/hive_util.dart';
 import 'package:jbaza/src/widgets/info_dialog.dart';
@@ -74,6 +77,29 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
     await addLazyBox<VMException>(errorLogKey, value);
     if (isEnableSentry) {
       Sentry.captureMessage(value.toJson().toString(), level: SentryLevel.error);
+    }
+  }
+
+  void safeBlock(FutureOr<Function> body,
+      {bool isChange = true, String? tag, String? callFuncName, bool inProgress = true}) async {
+    if (inProgress) {
+      setBusy(true, change: isChange, tag: tag);
+    }
+    try {
+      await body;
+    } on VMException catch (vm) {
+      setError(vm.copyWith(tag: tag, callFuncName: callFuncName), change: isChange);
+    } on SocketException {
+      setError(VMException('No internet connection!', isInet: true, tag: tag ?? _modelTag, callFuncName: callFuncName),
+          change: isChange, save: false);
+    } catch (e) {
+      setError(
+          VMException(
+            e.toString(),
+            tag: tag ?? _modelTag,
+            callFuncName: callFuncName,
+          ),
+          change: isChange);
     }
   }
 
