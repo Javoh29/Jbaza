@@ -92,4 +92,9 @@ class ErrorsViewModel extends BaseViewModel {
   callBackError(String text) {
     showInfo(text);
   }
+  
+  @override
+  callBackBusy(bool value, {String? tag}) {
+    
+  }
 }
