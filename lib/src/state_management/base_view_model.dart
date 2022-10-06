@@ -80,13 +80,13 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
     }
   }
 
-  void safeBlock(FutureOr<Function> body,
+  void safeBlock(Function body,
       {bool isChange = true, String? tag, String? callFuncName, bool inProgress = true}) async {
     if (inProgress) {
       setBusy(true, change: isChange, tag: tag);
     }
     try {
-      await Future.value(body);
+      await body();
     } on VMException catch (vm) {
       setError(vm.copyWith(tag: tag, callFuncName: callFuncName), change: isChange);
     } on SocketException {
