@@ -63,12 +63,13 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
     if (change) notifyListeners();
   }
 
-  void setSuccess({dynamic value, String? tag, bool change = true}) {
+  void setSuccess({dynamic value, String? tag, bool change = true, bool isCallBack = true}) {
     value ??= true;
     String mTag = tag ?? modelTag;
     _successStates[mTag] = value;
     _busyStates.remove(mTag);
     _errorStates.remove(mTag);
+    if (isCallBack) callBackSuccess(value, tag);
     if (change) notifyListeners();
   }
 
@@ -114,6 +115,8 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
   callBackBusy(bool value, String? tag) {}
 
   callBackError(String text) {}
+
+  callBackSuccess(dynamic value, String? tag) {}
 
   showInfo(String text,
       {TextStyle? kTextStyle,
