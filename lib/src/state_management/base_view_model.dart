@@ -69,8 +69,8 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
     _successStates[mTag] = value;
     _busyStates.remove(mTag);
     _errorStates.remove(mTag);
-    if (isCallBack) callBackSuccess(value, tag);
     if (change) notifyListeners();
+    if (isCallBack) callBackSuccess(value, tag);
   }
 
   Future<void> _sendToSave(VMException value) async {
