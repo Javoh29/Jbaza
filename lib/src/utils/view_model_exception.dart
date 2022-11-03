@@ -47,6 +47,8 @@ class VMException extends HiveObject {
       this.responsePhrase,
       this.responseBody,
       this.tokenIsValid,
+      this.responseHeader,
+      this.responseRequest,
       this.isInet = false,
       this.action}) {
     if (response != null) {
@@ -75,6 +77,8 @@ class VMException extends HiveObject {
         responseStatusCode: json['response_status_code'],
         responsePhrase: json['response_phrase'],
         responseBody: json['response_body'],
+        responseHeader: json['response_header'],
+        responseRequest: json['response_request'],
         tokenIsValid: json['token_is_valid']);
   }
 
@@ -91,6 +95,8 @@ class VMException extends HiveObject {
         'response_status_code': responseStatusCode,
         'response_phrase': responsePhrase,
         'response_body': responseBody,
+        'response_header': responseHeader,
+        'response_request': responseRequest,
         'token_is_valid': tokenIsValid
       };
     } else {
@@ -137,6 +143,8 @@ class VMException extends HiveObject {
       sb.write(', Response status code: $responseStatusCode');
       sb.write(', Response phrase: $responsePhrase');
       sb.write(', Response body: $responseBody');
+      sb.write(', Response header: $responseHeader');
+      sb.write(', Response Request: $responseRequest');
       sb.write(', Token is valid: $tokenIsValid');
     }
     sb.write(', Device info: $deviceInfo');

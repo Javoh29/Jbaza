@@ -9,8 +9,7 @@ class ErrorInfoPage extends ViewModelBuilderWidget<ErrorsViewModel> {
   final VMException _vmException;
 
   @override
-  Widget builder(
-      BuildContext context, ErrorsViewModel viewModel, Widget? child) {
+  Widget builder(BuildContext context, ErrorsViewModel viewModel, Widget? child) {
     return Scaffold(
       backgroundColor: Colors.grey[800],
       body: Stack(
@@ -37,6 +36,10 @@ class ErrorInfoPage extends ViewModelBuilderWidget<ErrorsViewModel> {
                 const SizedBox(height: 15),
                 _item('Response body:', _vmException.responseBody),
                 const SizedBox(height: 15),
+                _item('Response request:', _vmException.responseRequest),
+                const SizedBox(height: 15),
+                _item('Response header:', _vmException.responseHeader),
+                const SizedBox(height: 15),
                 _item('Token is valid:', _vmException.tokenIsValid),
                 const SizedBox(height: 15),
                 _item('Message:', _vmException.message)
@@ -48,12 +51,7 @@ class ErrorInfoPage extends ViewModelBuilderWidget<ErrorsViewModel> {
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(
                 color: Colors.grey[900],
-                boxShadow: const [
-                  BoxShadow(
-                      offset: Offset(0, 1),
-                      color: Colors.black26,
-                      blurRadius: 10)
-                ]),
+                boxShadow: const [BoxShadow(offset: Offset(0, 1), color: Colors.black26, blurRadius: 10)]),
             child: SafeArea(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -67,10 +65,7 @@ class ErrorInfoPage extends ViewModelBuilderWidget<ErrorsViewModel> {
                       )),
                   const Text(
                     'JBaza Exception',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600),
+                    style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                   IconButton(
                       onPressed: () => viewModel.shareError([_vmException]),
@@ -94,13 +89,11 @@ class ErrorInfoPage extends ViewModelBuilderWidget<ErrorsViewModel> {
       children: [
         Text(
           title,
-          style: const TextStyle(
-              color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
+          style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
         ),
         SelectableText(
           body ?? '- - - - - - - - -',
-          style: const TextStyle(
-              color: Colors.white70, fontSize: 16, fontWeight: FontWeight.w500),
+          style: const TextStyle(color: Colors.white70, fontSize: 16, fontWeight: FontWeight.w500),
         )
       ],
     );
