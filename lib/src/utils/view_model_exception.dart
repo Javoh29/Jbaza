@@ -27,6 +27,10 @@ class VMException extends HiveObject {
   String? responseBody;
   @HiveField(10)
   String? tokenIsValid;
+  @HiveField(11)
+  String? responseRequest;
+  @HiveField(12)
+  String? responseHeader;
   bool isInet = false;
   String? action;
   Response? response;
@@ -50,6 +54,8 @@ class VMException extends HiveObject {
       responseStatusCode = response!.statusCode.toString();
       responsePhrase = response!.reasonPhrase.toString();
       responseBody = response!.body.toString();
+      responseRequest = (response!.request as Request).body;
+      responseHeader = response!.request?.headers.toString();
       tokenIsValid = response!.headers['Authorization'] != null
           ? response!.headers['Authorization']!.length < 10
               ? 'empty'
