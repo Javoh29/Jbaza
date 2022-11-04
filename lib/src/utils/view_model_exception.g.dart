@@ -18,23 +18,25 @@ class VMExceptionAdapter extends TypeAdapter<VMException> {
     };
     return VMException(
       fields[0] as String,
+      tag: fields[1] as String,
+      time: fields[2] as String,
       callFuncName: fields[3] as String?,
       line: fields[4] as String?,
       deviceInfo: fields[5] as String?,
-    )
-      ..tag = fields[1] as String
-      ..time = fields[2] as String
-      ..baseRequest = fields[6] as String?
-      ..responseStatusCode = fields[7] as String?
-      ..responsePhrase = fields[8] as String?
-      ..responseBody = fields[9] as String?
-      ..tokenIsValid = fields[10] as String?;
+      baseRequest: fields[6] as String?,
+      responseStatusCode: fields[7] as String?,
+      responsePhrase: fields[8] as String?,
+      responseBody: fields[9] as String?,
+      tokenIsValid: fields[10] as String?,
+      responseHeader: fields[12] as String?,
+      responseRequest: fields[11] as String?,
+    );
   }
 
   @override
   void write(BinaryWriter writer, VMException obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(13)
       ..writeByte(0)
       ..write(obj.message)
       ..writeByte(1)
@@ -56,7 +58,11 @@ class VMExceptionAdapter extends TypeAdapter<VMException> {
       ..writeByte(9)
       ..write(obj.responseBody)
       ..writeByte(10)
-      ..write(obj.tokenIsValid);
+      ..write(obj.tokenIsValid)
+      ..writeByte(11)
+      ..write(obj.responseRequest)
+      ..writeByte(12)
+      ..write(obj.responseHeader);
   }
 
   @override
