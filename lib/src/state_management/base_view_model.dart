@@ -40,13 +40,13 @@ abstract class BaseViewModel extends ChangeNotifier with HiveUtil {
 
   bool isSuccess({String? tag}) => _successStates[tag ?? _modelTag] != null;
 
-  void setBusy(bool value, {String? tag, bool change = true}) {
+  void setBusy(bool value, {String? tag, bool change = true, bool isCallBack = true}) {
     String mTag = tag ?? _modelTag;
     _busyStates[mTag] = value;
     _errorStates.remove(mTag);
     _successStates.remove(mTag);
     if (change) notifyListeners();
-    callBackBusy(value, tag);
+    if (isCallBack) callBackBusy(value, tag);
   }
 
   void setError(VMException value, {String? tag, bool change = true, bool save = true, bool isCallBack = true}) {
