@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
 String mAppVersion = '0.0.1';
 String deviceInfo = 'Unknown device, AppVersion: $mAppVersion';
