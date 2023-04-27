@@ -401,7 +401,7 @@ class JbazaLocator {
   /// provide a [disposingFunction]. This function overrides the disposing
   /// you might have provided when registering.
   void resetLazySingleton<T extends Object>(
-          {Object? instance,
+          {T? instance,
           String? instanceName,
           void Function(T)? disposingFunction}) =>
       locator.resetLazySingleton<T>(
@@ -415,7 +415,7 @@ class JbazaLocator {
   /// that provides a instance of your class to be disposed. This function overrides the disposing
   /// you might have provided when registering.
   void unregister<T extends Object>(
-          {Object? instance,
+          {T? instance,
           String? instanceName,
           void Function(T)? disposingFunction}) =>
       locator.unregister<T>(
@@ -446,7 +446,7 @@ class JbazaLocator {
   /// not ready at that time.
   /// [callee] optional parameter which makes debugging easier. Pass `this` in here.
   Future<void> isReady<T extends Object>({
-    Object? instance,
+    T? instance,
     String? instanceName,
     Duration? timeout,
     Object? callee,
@@ -461,7 +461,7 @@ class JbazaLocator {
   /// Checks if an async Singleton defined by an [instance], a type [T] or an [instanceName]
   /// is ready without waiting
   bool isReadySync<T extends Object>(
-          {Object? instance, String? instanceName}) =>
+          {T? instance, String? instanceName}) =>
       locator.isReadySync<T>(
         instance: instance,
         instanceName: instanceName,
